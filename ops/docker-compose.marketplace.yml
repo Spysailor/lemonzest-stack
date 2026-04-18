@@ -20,7 +20,7 @@ services:
       - /opt/lemonzest-marketplace/repo/ops/nginx-marketplace.conf:/etc/nginx/conf.d/default.conf:ro
     healthcheck:
       # Healthcheck Docker (interne au container)
-      test: ["CMD", "wget", "-q", "-O-", "http://localhost/healthz"]
+      test: ["CMD", "wget", "-q", "-O-", "http://127.0.0.1/healthz"]
       interval: 30s
       timeout: 5s
       retries: 3
