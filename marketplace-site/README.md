@@ -2,7 +2,7 @@
 
 Site de vente des skills Claude de Lemon Zest Digital.
 
-**URL prod** : [marketplace.lemonzest.digital](https://marketplace.lemonzest.digital)
+**URL prod** : [marketplace.lemonzestdigital.com](https://marketplace.lemonzestdigital.com)
 
 ---
 

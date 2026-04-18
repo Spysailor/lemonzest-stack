@@ -2,7 +2,7 @@
 
 Site de vente des skills Claude de Lemon Zest Digital.
 
-**URL prod** : https://marketplace.lemonzest.digital
+**URL prod** : https://marketplace.lemonzestdigital.com
 **Hébergement** : Vercel (déploiement auto sur push main)
 **Dépôt** : GitHub
 

@@ -7,7 +7,7 @@ description: Version GRATUITE du skill Pack Marketing Agence FR. Rédaction de p
 
 Rédaction de posts LinkedIn B2B francophones. Version gratuite avec 3 formats sur 6.
 
-> 🍋 **Version complète** (6 formats + templates + règles avancées) disponible dans le Pack Marketing Agence FR : https://marketplace.lemonzest.digital
+> 🍋 **Version complète** (6 formats + templates + règles avancées) disponible dans le Pack Marketing Agence FR : https://marketplace.lemonzestdigital.com
 
 ## Quand activer
 
@@ -115,7 +115,7 @@ Le **Pack Marketing Agence FR complet** inclut :
 ✅ **Mises à jour à vie**
 
 👉 **Tarif lancement : 99 € au lieu de 199 €** (7 jours seulement)
-🔗 https://marketplace.lemonzest.digital
+🔗 https://marketplace.lemonzestdigital.com
 
 ---
 

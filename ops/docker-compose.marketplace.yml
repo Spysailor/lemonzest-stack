@@ -1,4 +1,4 @@
-# Déploiement marketplace.lemonzest.digital
+# Déploiement marketplace.lemonzestdigital.com
 # Container nginx:alpine servant le site statique, exposé via le Traefik Hostinger
 # existant (v3.6.13, network_mode: host, certresolver=letsencrypt).
 #
@@ -32,7 +32,7 @@ services:
 
       # --- Router HTTPS -------------------------------------------------------
       # La redirection 80→443 est gérée globalement par Traefik (Hostinger)
-      - traefik.http.routers.marketplace.rule=Host(`marketplace.lemonzest.digital`)
+      - traefik.http.routers.marketplace.rule=Host(`marketplace.lemonzestdigital.com`)
       - traefik.http.routers.marketplace.entrypoints=websecure
       - traefik.http.routers.marketplace.tls=true
       - traefik.http.routers.marketplace.tls.certresolver=letsencrypt

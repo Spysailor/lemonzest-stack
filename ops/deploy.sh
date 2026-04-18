@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# deploy.sh — Déploiement marketplace.lemonzest.digital sur le VPS Hostinger
+# deploy.sh — Déploiement marketplace.lemonzestdigital.com sur le VPS Hostinger
 # ------------------------------------------------------------------------------
 # À exécuter SUR LE VPS (pas depuis le Mac).
 # Idempotent : peut être rejoué autant de fois que nécessaire.
@@ -25,7 +25,7 @@ set -euo pipefail
 REPO_DIR="/opt/lemonzest-marketplace/repo"
 COMPOSE_FILE="${REPO_DIR}/ops/docker-compose.marketplace.yml"
 SERVICE_NAME="marketplace-site"
-DOMAIN="marketplace.lemonzest.digital"
+DOMAIN="marketplace.lemonzestdigital.com"
 GIT_BRANCH="main"
 
 # --- Couleurs pour lisibilité -------------------------------------------------

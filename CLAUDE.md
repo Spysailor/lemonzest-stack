@@ -11,7 +11,7 @@
 Jean-Michel lance une **marketplace francophone de skills et routines Claude Code**
 à destination des freelances et agences marketing FR/BE/CH/MU.
 
-**URL cible** : `marketplace.lemonzest.digital`
+**URL cible** : `marketplace.lemonzestdigital.com`
 **Hébergement** : VPS (à créer) + domaine déjà possédé
 **Checkout** : Gumroad (à configurer) avec compte société Maurice
 
@@ -70,7 +70,7 @@ Jean-Michel lance une **marketplace francophone de skills et routines Claude Cod
 ```
 ┌──────────────────────────────────────────────────────┐
 │  UTILISATEUR                                         │
-│  └─> marketplace.lemonzest.digital                   │
+│  └─> marketplace.lemonzestdigital.com                   │
 └─────────────────────┬────────────────────────────────┘
                       ↓
 ┌──────────────────────────────────────────────────────┐
@@ -176,7 +176,7 @@ Jean-Michel lance une **marketplace francophone de skills et routines Claude Cod
 
 ### Samedi 18 avril (aujourd'hui)
 1. **VPS création** (Hetzner ou OVH recommandé, ~5-10€/mois)
-2. **Setup Nginx + SSL** pour `marketplace.lemonzest.digital`
+2. **Setup Nginx + SSL** pour `marketplace.lemonzestdigital.com`
 3. **Déploiement site statique** depuis `marketplace-site/index.html`
 4. **Gumroad compte société** + upload pack skills
 5. **DNS configuration** chez registrar du domaine
@@ -226,7 +226,7 @@ ln -s /etc/nginx/sites-available/marketplace /etc/nginx/sites-enabled/
 nginx -t && systemctl reload nginx
 
 # SSL
-certbot --nginx -d marketplace.lemonzest.digital
+certbot --nginx -d marketplace.lemonzestdigital.com
 ```
 
 ---
@@ -268,7 +268,7 @@ Jean-Michel et Claude (Claude.ai) ont fait une **session longue de 8h+** le
 - **Société** : Lemon Zest Digital (Maurice)
 - **Timezone** : UTC+4 (Maurice)
 - **Domaine principal** : lemonzest.digital
-- **Sous-domaine marketplace** : marketplace.lemonzest.digital
+- **Sous-domaine marketplace** : marketplace.lemonzestdigital.com
 
 ---
 

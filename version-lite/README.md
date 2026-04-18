@@ -76,7 +76,7 @@ Cette version gratuite contient **3 formats sur 6**. La version complète du Pac
 
 ### 👉 Accéder au pack complet
 
-https://marketplace.lemonzest.digital
+https://marketplace.lemonzestdigital.com
 
 ---
 

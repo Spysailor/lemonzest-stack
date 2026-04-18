@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# rollback.sh — Rollback marketplace.lemonzest.digital au commit précédent
+# rollback.sh — Rollback marketplace.lemonzestdigital.com au commit précédent
 # ------------------------------------------------------------------------------
 # À exécuter SUR LE VPS.
 # Revient au commit HEAD~1 et redémarre le container marketplace.
@@ -18,7 +18,7 @@ set -euo pipefail
 REPO_DIR="/opt/lemonzest-marketplace/repo"
 COMPOSE_FILE="${REPO_DIR}/ops/docker-compose.marketplace.yml"
 SERVICE_NAME="marketplace-site"
-DOMAIN="marketplace.lemonzest.digital"
+DOMAIN="marketplace.lemonzestdigital.com"
 
 # --- Couleurs -----------------------------------------------------------------
 GREEN="\033[0;32m"

@@ -382,4 +382,4 @@ Si le pack vous rend service, **un témoignage sur LinkedIn** nous aide énormé
 
 — L'équipe Lemon Zest Digital
 `contact@lemonzest.digital`
-`marketplace.lemonzest.digital`
+`marketplace.lemonzestdigital.com`
