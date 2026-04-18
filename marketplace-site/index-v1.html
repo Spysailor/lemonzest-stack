@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack Marketing Agence FR — Lemon Zest Digital</title>
+<meta name="description" content="La première suite de skills Claude pensée pour les agences marketing francophones. 5 skills, 100% français, RGPD-compliant.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #fdfaf4;
+  --ink: #1a1814;
+  --ink-soft: #4a453d;
+  --ink-muted: #8b857a;
+  --line: #e8e2d3;
+  --zest: #f5c518;
+  --zest-dark: #e0b000;
+  --zest-soft: #fdf4c9;
+  --lemon: #fef9d4;
+  --leaf: #2d5016;
+  --accent: #d94b1a;
+  --success: #2a7f3e;
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Manrope', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* Nav */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(253, 250, 244, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding: 1.1rem 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--zest);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(245, 197, 24, 0.35);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--ink); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.25s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--leaf); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.btn-zest { background: var(--zest); color: var(--ink); font-weight: 700; }
+.btn-zest:hover { background: var(--zest-dark); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(245, 197, 24, 0.4); }
+
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn-ghost:hover { border-color: var(--ink); }
+
+/* Hero */
+.hero {
+  padding: 6rem 0 5rem;
+  position: relative;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--zest-soft);
+  border: 1px solid var(--zest);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.hero-eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+h1.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  margin-bottom: 1.75rem;
+}
+
+h1.hero-title em {
+  font-style: italic;
+  color: var(--zest-dark);
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-price {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  flex-wrap: wrap;
+}
+
+.price-tag {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.price-old {
+  text-decoration: line-through;
+  color: var(--ink-muted);
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  height: 480px;
+}
+
+.skill-card {
+  position: absolute;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: 0 12px 30px rgba(20, 18, 15, 0.08);
+  width: 280px;
+}
+
+.skill-card:nth-child(1) { top: 0; left: 0; transform: rotate(-4deg); z-index: 3; }
+.skill-card:nth-child(2) { top: 50px; right: 20px; transform: rotate(3deg); background: var(--lemon); z-index: 2; }
+.skill-card:nth-child(3) { top: 200px; left: 40px; transform: rotate(-2deg); z-index: 4; }
+.skill-card:nth-child(4) { top: 260px; right: 0; transform: rotate(4deg); background: var(--zest-soft); z-index: 1; }
+.skill-card:nth-child(5) { bottom: 0; left: 80px; transform: rotate(-3deg); z-index: 5; }
+
+.skill-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.skill-card-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.skill-card-desc {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.skill-card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Sections */
+.section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+h2.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  max-width: 800px;
+}
+
+.section-intro {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  max-width: 700px;
+}
+
+/* Problems */
+.problems {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+
+.problem-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.problem-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(20, 18, 15, 0.08);
+  border-color: var(--zest);
+}
+
+.problem-number {
+  font-family: 'Fraunces', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--zest);
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.problem-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.problem-desc {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* Skills section dark */
+.skills-section {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 7rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(245, 197, 24, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.skills-section .section-label { color: var(--zest); }
+.skills-section h2 { color: var(--bg); }
+.skills-section .section-intro { color: rgba(253, 250, 244, 0.75); }
+
+.skills-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.skill-item {
+  padding: 2rem;
+  border: 1px solid rgba(253, 250, 244, 0.1);
+  border-radius: var(--radius);
+  background: rgba(253, 250, 244, 0.02);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--zest);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+.skill-item:hover {
+  background: rgba(245, 197, 24, 0.05);
+  border-color: rgba(245, 197, 24, 0.3);
+}
+
+.skill-item:hover::before { transform: scaleX(1); }
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.skill-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.skill-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  background: rgba(245, 197, 24, 0.15);
+  color: var(--zest);
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.skill-desc {
+  color: rgba(253, 250, 244, 0.7);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.skill-features {
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.skill-features li {
+  padding: 0.35rem 0;
+  color: rgba(253, 250, 244, 0.8);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skill-features li::before {
+  content: '→';
+  color: var(--zest);
+  font-weight: 600;
+}
+
+/* Comparison */
+.compare-wrapper {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 3rem;
+  box-shadow: 0 20px 40px rgba(20, 18, 15, 0.04);
+  overflow-x: auto;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+.compare-table th, .compare-table td {
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.compare-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+
+.compare-table td.highlight {
+  background: var(--zest-soft);
+  font-weight: 600;
+}
+
+.compare-check { color: var(--success); font-weight: 700; }
+.compare-cross { color: var(--ink-muted); }
+
+/* Pricing */
+.pricing-wrapper {
+  max-width: 600px;
+  margin: 4rem auto 0;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(20, 18, 15, 0.12);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.pricing-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-sub {
+  text-align: center;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+}
+
+.price-display {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.price-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.price-currency {
+  font-size: 2rem;
+  vertical-align: top;
+}
+
+.price-old-big {
+  font-size: 1.2rem;
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+  font-family: 'Fraunces', serif;
+}
+
+.price-note {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-top: 0.5rem;
+}
+
+.features-list {
+  list-style: none;
+  margin: 0 0 2rem 0;
+}
+
+.features-list li {
+  padding: 0.75rem 0;
+  display: flex;
+  gap: 0.75rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+}
+
+.features-list li:last-child { border-bottom: none; }
+
+.features-list .check {
+  width: 24px;
+  height: 24px;
+  background: var(--zest);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.cta-big {
+  width: 100%;
+  padding: 1.1rem;
+  font-size: 1.05rem;
+  justify-content: center;
+}
+
+.guarantee {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* FAQ */
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 1.5rem 0;
+}
+
+.faq-question {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+}
+
+.faq-question::-webkit-details-marker { display: none; }
+
+.faq-question::after {
+  content: '+';
+  font-size: 1.5rem;
+  color: var(--zest-dark);
+  transition: transform 0.3s;
+  font-weight: 300;
+}
+
+details[open] .faq-question::after { transform: rotate(45deg); }
+
+.faq-answer {
+  padding-top: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* CTA final */
+.cta-section {
+  background: var(--lemon);
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '🍋';
+  position: absolute;
+  font-size: 20rem;
+  opacity: 0.05;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cta-inner { position: relative; z-index: 1; }
+
+.cta-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+}
+
+.cta-desc {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Footer */
+footer {
+  background: var(--ink);
+  color: rgba(253, 250, 244, 0.7);
+  padding: 4rem 0 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand p {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  max-width: 320px;
+}
+
+.footer h4 {
+  color: var(--bg);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.footer ul { list-style: none; }
+
+.footer ul li {
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.footer ul a {
+  color: rgba(253, 250, 244, 0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer ul a:hover { color: var(--zest); }
+
+.footer-bottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(253, 250, 244, 0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-visual { height: 400px; }
+  .problems { grid-template-columns: 1fr; }
+  .skills-list { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .nav-links a:not(.btn) { display: none; }
+  .pricing-wrapper { padding: 2rem; }
+  .price-amount { font-size: 3rem; }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in { animation: fadeInUp 0.8s ease-out both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">🍋</span>
+      <span>Lemon Zest</span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Pourquoi</a>
+      <a href="#skills">Skills</a>
+      <a href="#pricing">Tarif</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing" class="btn btn-primary">Accéder au pack</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="animate-in">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        <span>Lancement — avril 2026</span>
+      </div>
+      <h1 class="hero-title">
+        La première suite de skills IA<br>pour <em>agences francophones</em>.
+      </h1>
+      <p class="hero-sub">
+        Cinq skills IA orchestrés, pensés pour le marché B2B FR, BE, CH et Maurice.
+        Audit SEO, contenu web, LinkedIn, email, propositions commerciales.
+        <strong>100 % en français, 100 % conforme RGPD.</strong><br><br>
+        Compatible <strong>Claude Code, Claude.ai, Cursor, Codex et tout assistant supportant le standard SKILL.md</strong>.
+      </p>
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-zest">Accéder au pack — 99 €</a>
+        <a href="#skills" class="btn btn-ghost">Voir les 5 skills</a>
+      </div>
+      <div class="hero-price">
+        <span class="mono">Offre de lancement</span>
+        <span class="price-tag">99 €</span>
+        <span class="price-old">au lieu de 199 €</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="skill-card">
+        <div class="skill-card-icon">🔍</div>
+        <div class="skill-card-tag">seo-audit-fr</div>
+        <div class="skill-card-title">Audit SEO complet</div>
+        <div class="skill-card-desc">7 axes, rapport livrable en 1h au lieu de 6h.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">✍️</div>
+        <div class="skill-card-tag">content-writer-fr</div>
+        <div class="skill-card-title">Contenu web SEO</div>
+        <div class="skill-card-desc">Articles optimisés avec typographie française native.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">💼</div>
+        <div class="skill-card-tag">linkedin-post-fr</div>
+        <div class="skill-card-title">Posts LinkedIn B2B</div>
+        <div class="skill-card-desc">6 formats qui performent vraiment en FR.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">📧</div>
+        <div class="skill-card-tag">email-sequence-fr</div>
+        <div class="skill-card-title">Séquences email</div>
+        <div class="skill-card-desc">Prêtes pour Brevo, Mailjet, avec RGPD intégré.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">📄</div>
+        <div class="skill-card-tag">client-proposal-fr</div>
+        <div class="skill-card-title">Propositions commerciales</div>
+        <div class="skill-card-desc">Conformes TVA FR, mentions légales, RGPD.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-label">Le problème</div>
+    <h2 class="section-title">
+      95 % des skills IA sont en anglais<br>avec une logique US.
+    </h2>
+    <p class="section-intro">
+      Le marché francophone a des codes, des réglementations et des plateformes spécifiques.
+      Un skill SEO américain ne connaît pas le RGPD, n'écrit pas avec les bonnes espaces insécables, et ne cite pas Pages Jaunes.
+    </p>
+
+    <div class="problems">
+      <div class="problem-card">
+        <div class="problem-number">01</div>
+        <div class="problem-title">Les skills EN ne parlent pas votre langue</div>
+        <div class="problem-desc">
+          Typographie anglaise, références US, plateformes inconnues en FR.
+          Résultat : 2 heures de retouche pour un article de 1500 mots.
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-number">02</div>
+        <div class="problem-title">Zéro conformité RGPD</div>
+        <div class="problem-desc">
+          Un skill qui suggère Google Analytics sans consentement ? Amende CNIL en approche.
+          Les skills US ignorent totalement le cadre européen.
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-number">03</div>
+        <div class="problem-title">Tout est éparpillé</div>
+        <div class="problem-desc">
+          1 skill par-ci, 1 autre par-là, aucune cohérence entre eux.
+          Impossible de construire un workflow agence de bout en bout.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="skills-section" id="skills">
+  <div class="container">
+    <div class="section-label">Ce qui est inclus</div>
+    <h2 class="section-title">5 skills orchestrés qui couvrent toute la chaîne marketing.</h2>
+    <p class="section-intro">
+      Un orchestrateur principal qui route automatiquement vers le bon sous-skill.
+      Chaque skill est spécialisé, mais ils partagent un contexte commun FR, RGPD et Lemon Zest.
+    </p>
+
+    <div class="skills-list">
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Audit SEO</div>
+          <div class="skill-code">seo-audit-fr</div>
+        </div>
+        <div class="skill-desc">
+          Audit complet en 7 axes : technique, on-page, contenu, maillage, local FR, Core Web Vitals, E-E-A-T.
+        </div>
+        <ul class="skill-features">
+          <li>Rapport PDF livrable en 1h</li>
+          <li>Template personnalisable</li>
+          <li>Checklist RGPD intégrée</li>
+          <li>Projections ROI réalistes</li>
+        </ul>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Rédaction Web</div>
+          <div class="skill-code">content-writer-fr</div>
+        </div>
+        <div class="skill-desc">
+          Articles, pages piliers, landing pages, fiches produit. Typographie française native.
+        </div>
+        <ul class="skill-features">
+          <li>Brief automatique avant rédaction</li>
+          <li>Espaces insécables, guillemets FR</li>
+          <li>Recherche sémantique intégrée</li>
+          <li>Sources FR privilégiées</li>
+        </ul>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Posts LinkedIn</div>
+          <div class="skill-code">linkedin-post-fr</div>
+        </div>
+        <div class="skill-desc">
+          6 formats qui performent sur LinkedIn FR : storytelling, liste-valeur, opinion, retour client, annonce, carrousel.
+        </div>
+        <ul class="skill-features">
+          <li>Hashtags B2B francophones</li>
+          <li>Horaires optimaux FR calculés</li>
+          <li>Checklist anti-ton-US</li>
+          <li>Templates prêts à personnaliser</li>
+        </ul>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Emails Marketing</div>
+          <div class="skill-code">email-sequence-fr</div>
+        </div>
+        <div class="skill-desc">
+          Séquences bienvenue, lancement, panier abandonné, cold email B2B, re-engagement.
+        </div>
+        <ul class="skill-features">
+          <li>Prêt pour Brevo et Mailjet</li>
+          <li>Variables Brevo configurées</li>
+          <li>Objets anti-spam FR</li>
+          <li>RGPD et LCEN respectés</li>
+        </ul>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Propositions</div>
+          <div class="skill-code">client-proposal-fr</div>
+        </div>
+        <div class="skill-desc">
+          Devis et propositions commerciales structurés, conformes au droit commercial FR.
+        </div>
+        <ul class="skill-features">
+          <li>Mentions légales obligatoires</li>
+          <li>TVA FR/BE/CH/MU gérée</li>
+          <li>11 sections standardisées</li>
+          <li>Barème tarifaire 2026 inclus</li>
+        </ul>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Orchestrateur</div>
+          <div class="skill-code">marketing-agence-fr</div>
+        </div>
+        <div class="skill-desc">
+          Le skill principal qui route intelligemment vers le bon sous-skill selon votre demande.
+        </div>
+        <ul class="skill-features">
+          <li>Contexte commun FR partagé</li>
+          <li>Règles typographiques globales</li>
+          <li>Checklist RGPD transverse</li>
+          <li>Ton Lemon Zest Digital</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Comparaison</div>
+    <h2 class="section-title">Pourquoi c'est différent des skills existants.</h2>
+
+    <div class="compare-wrapper">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Skills EN standards</th>
+            <th>Autres packs marketing</th>
+            <th class="highlight">Pack Marketing Agence FR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Langue de production</td>
+            <td class="compare-cross">Anglais</td>
+            <td class="compare-cross">Traductions brutes</td>
+            <td class="highlight compare-check">100 % français natif</td>
+          </tr>
+          <tr>
+            <td>Typographie FR</td>
+            <td class="compare-cross">Aucune</td>
+            <td class="compare-cross">Approximative</td>
+            <td class="highlight compare-check">Espaces insécables, « »</td>
+          </tr>
+          <tr>
+            <td>Conformité RGPD</td>
+            <td class="compare-cross">Ignorée</td>
+            <td class="compare-cross">Mention superficielle</td>
+            <td class="highlight compare-check">Checklist complète intégrée</td>
+          </tr>
+          <tr>
+            <td>Outils FR (Brevo, PrestaShop)</td>
+            <td class="compare-cross">Non mentionnés</td>
+            <td class="compare-cross">Rares</td>
+            <td class="highlight compare-check">Intégrés par défaut</td>
+          </tr>
+          <tr>
+            <td>Orchestration multi-skills</td>
+            <td class="compare-cross">Non</td>
+            <td class="compare-check">Parfois</td>
+            <td class="highlight compare-check">Routeur intelligent</td>
+          </tr>
+          <tr>
+            <td>Support en français</td>
+            <td class="compare-cross">Aucun</td>
+            <td class="compare-cross">Anglais uniquement</td>
+            <td class="highlight compare-check">Email FR sous 48h</td>
+          </tr>
+          <tr>
+            <td>Mises à jour incluses</td>
+            <td class="compare-cross">Dépend du créateur</td>
+            <td class="compare-cross">Variables</td>
+            <td class="highlight compare-check">À vie (majeures à -50 %)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-label" style="text-align: center;">Essayez d'abord gratuitement</div>
+    <h2 class="section-title" style="text-align: center; margin-left: auto; margin-right: auto;">
+      Pas encore convaincu ? Testez un skill, gratuitement.
+    </h2>
+    <p class="section-intro" style="text-align: center; margin-left: auto; margin-right: auto; margin-bottom: 3rem;">
+      Téléchargez la version Lite du skill LinkedIn (3 formats, typographie FR, règles B2B)
+      et jugez la qualité avant d'acheter le pack complet.
+    </p>
+
+    <div style="max-width: 500px; margin: 0 auto 5rem; background: var(--zest-soft); border: 1px solid var(--zest); border-radius: var(--radius-lg); padding: 2rem; text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎁</div>
+      <h3 style="font-family: 'Fraunces', serif; font-size: 1.4rem; margin-bottom: 0.75rem;">
+        Skill linkedin-post-fr-lite
+      </h3>
+      <p style="color: var(--ink-soft); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        3 formats LinkedIn B2B · Règles typographiques FR · Hashtags adaptés au marché francophone
+      </p>
+      <a href="https://lemonzest.digital/skill-lite" class="btn btn-ghost" style="padding: 0.9rem 1.5rem;">
+        Télécharger gratuitement →
+      </a>
+      <p style="font-size: 0.8rem; color: var(--ink-muted); margin-top: 1rem;">
+        Email requis · Zéro spam · Désinscription en 1 clic
+      </p>
+    </div>
+
+    <div class="section-label" style="text-align: center;">Pack complet</div>
+    <h2 class="section-title" style="text-align: center; margin-left: auto; margin-right: auto;">
+      Un investissement qui se rentabilise en 2 missions.
+    </h2>
+    <p class="section-intro" style="text-align: center; margin-left: auto; margin-right: auto;">
+      Pour un consultant qui facture 60 €/h, économiser 10 h par semaine grâce au pack
+      équivaut à 2 400 € de temps valorisé par mois.
+    </p>
+
+    <div class="pricing-wrapper">
+      <div class="pricing-badge">-50 % pendant 7 jours</div>
+      <h3 class="pricing-title">Pack Marketing Agence FR</h3>
+      <p class="pricing-sub">Accès complet, mises à jour à vie</p>
+
+      <div class="price-display">
+        <div>
+          <span class="price-amount"><span class="price-currency">€</span>99</span>
+          <span class="price-old-big">199 €</span>
+        </div>
+        <span class="price-note">Paiement unique — accès illimité</span>
+      </div>
+
+      <ul class="features-list">
+        <li><span class="check">✓</span><span><strong>5 skills orchestrés</strong> (SEO, contenu, LinkedIn, email, propositions)</span></li>
+        <li><span class="check">✓</span><span><strong>5 templates prêts à l'emploi</strong> (rapport audit, brief, posts, séquences Brevo, proposition)</span></li>
+        <li><span class="check">✓</span><span><strong>2 références contextuelles</strong> (contexte marché FR, checklist RGPD)</span></li>
+        <li><span class="check">✓</span><span><strong>Documentation complète</strong> en français avec exemples d'usage</span></li>
+        <li><span class="check">✓</span><span><strong>Mises à jour mineures à vie</strong> (corrections, nouveaux templates)</span></li>
+        <li><span class="check">✓</span><span><strong>Support email</strong> sous 48 h ouvrées</span></li>
+        <li><span class="check">✓</span><span><strong>Garantie 14 jours</strong> satisfait ou remboursé</span></li>
+      </ul>
+
+      <a href="https://gumroad.com/l/marketing-agence-fr" class="btn btn-zest cta-big">
+        Acheter maintenant — 99 €
+      </a>
+      <p class="guarantee">
+        🔒 Paiement sécurisé Gumroad · Accès immédiat · Remboursé sans question sous 14 j
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container" style="max-width: 800px;">
+    <div class="section-label">Questions fréquentes</div>
+    <h2 class="section-title">Tout ce que vous voulez savoir avant d'acheter.</h2>
+
+    <details class="faq-item">
+      <summary class="faq-question">Est-ce que je peux l'utiliser pour plusieurs clients ?</summary>
+      <div class="faq-answer">
+        Oui, sans limite. Une fois le pack acheté, vous pouvez l'utiliser pour votre propre activité
+        et pour accompagner vos clients sans frais supplémentaires. La seule restriction : vous ne pouvez
+        pas revendre ou redistribuer le pack.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Il me faut un abonnement Claude pour l'utiliser ?</summary>
+      <div class="faq-answer">
+        Oui, le pack fonctionne avec Claude (Pro, Team, Enterprise ou API). Vous pouvez l'utiliser
+        via Claude Code (recommandé), Claude.ai avec les Projects, ou via l'API. Pas d'abonnement
+        supplémentaire nécessaire au-delà de votre abonnement Claude.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Comment je reçois le pack après achat ?</summary>
+      <div class="faq-answer">
+        Vous recevez immédiatement un lien de téléchargement (fichier .zip) contenant tous les skills,
+        templates et références. Un email avec un guide d'installation pas à pas en français vous est
+        également envoyé. L'installation prend moins de 5 minutes.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Est-ce compatible avec OpenClaw / Claude Code ?</summary>
+      <div class="faq-answer">
+        Oui, 100 % compatible avec Claude Code et OpenClaw. Le pack utilise le format standard SKILL.md,
+        donc il fonctionne aussi avec <strong>Codex CLI, Cursor, ChatGPT, GitHub Copilot, Gemini CLI</strong>
+        et 14+ autres assistants IA compatibles avec le standard Agent Skills ouvert.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Je n'utilise pas Claude, seulement ChatGPT. Ça marche quand même ?</summary>
+      <div class="faq-answer">
+        Oui. Le standard SKILL.md est ouvert et compatible avec ChatGPT (via GPTs ou Projects),
+        Cursor, Copilot, et tous les assistants IA modernes. Les instructions sont rédigées
+        en langage naturel, elles fonctionnent avec n'importe quel modèle suffisamment capable
+        (GPT-4, Claude Opus, Gemini Pro, etc.).
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Je ne suis pas technique, je peux l'utiliser ?</summary>
+      <div class="faq-answer">
+        Oui. Si vous savez utiliser Claude.ai (avec les Projects), vous savez utiliser ce pack.
+        Un guide d'installation pas à pas est fourni, avec captures d'écran. Vous pouvez aussi nous
+        contacter pour une aide ponctuelle.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Les mises à jour sont-elles incluses ?</summary>
+      <div class="faq-answer">
+        Oui pour les mises à jour mineures (corrections, ajout de templates, nouveaux exemples)
+        qui sont incluses à vie. Les versions majeures (v2, v3) seront proposées à -50 % pour les
+        clients existants.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Puis-je demander un remboursement si ça ne me convient pas ?</summary>
+      <div class="faq-answer">
+        Absolument. Vous avez 14 jours pour tester le pack. Si vous n'êtes pas satisfait, un email
+        suffit pour obtenir un remboursement intégral, sans justification. Aucun risque pour vous.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Est-ce adapté à mon marché (Maurice, Afrique FR) ?</summary>
+      <div class="faq-answer">
+        Oui, le pack a été pensé pour toute la zone francophone : France métropolitaine, Belgique,
+        Suisse romande, Maurice et Afrique francophone. Les spécificités locales (tarification, fiscalité,
+        culture) sont documentées dans les références incluses.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Avez-vous une version gratuite pour tester ?</summary>
+      <div class="faq-answer">
+        Pas de version gratuite du pack complet, mais vous pouvez consulter les descriptions détaillées
+        de chaque skill sur cette page. Pour un avant-goût, inscrivez-vous à notre newsletter :
+        nous envoyons régulièrement des skills gratuits en teaser.
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container cta-inner">
+    <h2 class="cta-title">Prêt à industrialiser<br>votre production marketing ?</h2>
+    <p class="cta-desc">
+      Rejoignez les premiers utilisateurs du Pack Marketing Agence FR et récupérez 10 à 15 heures
+      par semaine dès demain.
+    </p>
+    <a href="#pricing" class="btn btn-primary" style="padding: 1.2rem 2rem; font-size: 1.05rem;">
+      Accéder au pack — 99 €
+    </a>
+    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft);">
+      🔒 Paiement sécurisé · Accès immédiat · Garantie 14 jours
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="color: var(--bg);">
+          <span class="logo-mark">🍋</span>
+          <span>Lemon Zest Digital</span>
+        </a>
+        <p>
+          Agence digitale francophone basée à Maurice. On automatise l'IA pour les consultants,
+          agences et SMB francophones. Skills, formations, accompagnement.
+        </p>
+      </div>
+
+      <div>
+        <h4>Produit</h4>
+        <ul>
+          <li><a href="#skills">Skills inclus</a></li>
+          <li><a href="#pricing">Tarif</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Guide d'installation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Ressources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Communauté Discord</a></li>
+          <li><a href="#">Skills gratuits</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Lemon Zest</h4>
+        <ul>
+          <li><a href="#">Site principal</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="mailto:contact@lemonzest.digital">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 Lemon Zest Digital · Tous droits réservés</div>
+      <div><a href="#" style="color: rgba(253, 250, 244, 0.5); text-decoration: none;">Mentions légales</a> · <a href="#" style="color: rgba(253, 250, 244, 0.5); text-decoration: none;">CGV</a> · <a href="#" style="color: rgba(253, 250, 244, 0.5); text-decoration: none;">Politique de confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
