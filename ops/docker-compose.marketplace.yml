@@ -1,0 +1,68 @@
+# Déploiement marketplace.lemonzest.digital
+# Container nginx:alpine servant le site statique, exposé via le Traefik Hostinger
+# existant (v3.6.13, network_mode: host, certresolver=letsencrypt).
+#
+# Stratégie de déploiement : bind mount read-only directement depuis le repo Git.
+# Pas de rsync, pas de rebuild d'image. Un `git pull` + `docker compose restart`
+# suffit pour déployer une nouvelle version.
+
+services:
+  marketplace-site:
+    image: nginx:alpine
+    container_name: marketplace-site
+    restart: unless-stopped
+    networks:
+      - marketplace_net
+    volumes:
+      # Site statique — bind mount direct sur le repo (read-only)
+      - /opt/lemonzest-marketplace/repo/marketplace-site:/usr/share/nginx/html:ro
+      # Config nginx (versionnée dans le repo)
+      - /opt/lemonzest-marketplace/repo/ops/nginx-marketplace.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      # Healthcheck Docker (interne au container)
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # --- Activation Traefik -------------------------------------------------
+      - traefik.enable=true
+      - traefik.docker.network=marketplace_net
+
+      # --- Router HTTPS -------------------------------------------------------
+      # La redirection 80→443 est gérée globalement par Traefik (Hostinger)
+      - traefik.http.routers.marketplace.rule=Host(`marketplace.lemonzest.digital`)
+      - traefik.http.routers.marketplace.entrypoints=websecure
+      - traefik.http.routers.marketplace.tls=true
+      - traefik.http.routers.marketplace.tls.certresolver=letsencrypt
+      - traefik.http.routers.marketplace.middlewares=marketplace-secheaders@docker,marketplace-compress@docker
+
+      # --- Service (port interne + healthcheck Traefik) -----------------------
+      - traefik.http.services.marketplace.loadbalancer.server.port=80
+      - traefik.http.services.marketplace.loadbalancer.healthcheck.path=/
+      - traefik.http.services.marketplace.loadbalancer.healthcheck.interval=30s
+      - traefik.http.services.marketplace.loadbalancer.healthcheck.timeout=5s
+
+      # --- Middleware compression --------------------------------------------
+      - traefik.http.middlewares.marketplace-compress.compress=true
+
+      # --- Middleware headers sécurité ---------------------------------------
+      # HSTS (1 an, sous-domaines, preload)
+      - traefik.http.middlewares.marketplace-secheaders.headers.stsSeconds=31536000
+      - traefik.http.middlewares.marketplace-secheaders.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.marketplace-secheaders.headers.stsPreload=true
+      - traefik.http.middlewares.marketplace-secheaders.headers.forceSTSHeader=true
+      # X-Frame-Options: SAMEORIGIN
+      - traefik.http.middlewares.marketplace-secheaders.headers.customFrameOptionsValue=SAMEORIGIN
+      # X-Content-Type-Options: nosniff
+      - traefik.http.middlewares.marketplace-secheaders.headers.contentTypeNosniff=true
+      # Referrer-Policy
+      - traefik.http.middlewares.marketplace-secheaders.headers.referrerPolicy=strict-origin-when-cross-origin
+      # Content-Security-Policy basique (ajustée aux Google Fonts + styles inline du template actuel)
+      - "traefik.http.middlewares.marketplace-secheaders.headers.contentSecurityPolicy=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://gumroad.com"
+
+networks:
+  marketplace_net:
+    name: marketplace_net
+    driver: bridge
