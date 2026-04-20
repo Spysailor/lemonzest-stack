@@ -16,7 +16,8 @@ const convJson = JSON.stringify(conversation);
       Cliquez pour dérouler une session réelle. Données fictives.
     </p>
 
-    <div class="demo-layout">
+    <!-- data-conversation stocke le JSON dans l'HTML — lu par le script sans define:vars -->
+    <div class="demo-layout" id="demo-root" data-conversation={convJson}>
       <!-- Fenêtre Claude simulée -->
       <div class="demo-window" id="demo-window">
         <div class="demo-titlebar">
@@ -68,9 +69,10 @@ const convJson = JSON.stringify(conversation);
   </div>
 </section>
 
-<script is:inline define:vars={{ convJson }}>
+<script is:inline>
 (function () {
-  var conv = JSON.parse(convJson);
+  var root = document.getElementById('demo-root');
+  var conv = JSON.parse(root.dataset.conversation);
   var step = -1;
 
   var messagesEl = document.getElementById('demo-messages');
