@@ -8,7 +8,7 @@ const { skillName, conversation } = Astro.props;
 const convJson = JSON.stringify(conversation);
 ---
 
-<section class="demo-section">
+<section class="demo-section" data-demo-root>
   <div class="container">
     <span class="eyebrow"><span class="eyebrow-dot"></span>Voyez-le en action</span>
     <h2 class="demo-title">Simulation <span class="italic">pas-à-pas.</span></h2>
@@ -16,11 +16,9 @@ const convJson = JSON.stringify(conversation);
       Cliquez pour dérouler une session réelle. Données fictives.
     </p>
 
-    <!-- JSON embarqué dans un script tag : pas d'encodage HTML, lecture fiable -->
-    <script type="application/json" id="demo-conv" set:html={convJson}></script>
-    <div class="demo-layout" id="demo-root">
+    <div class="demo-layout">
       <!-- Fenêtre Claude simulée -->
-      <div class="demo-window" id="demo-window">
+      <div class="demo-window">
         <div class="demo-titlebar">
           <div class="demo-dots" aria-hidden="true">
             <span style="background:#E5645A"></span>
@@ -29,9 +27,8 @@ const convJson = JSON.stringify(conversation);
           </div>
           <span class="demo-titlebar-text">Claude · Compétence : {skillName}</span>
         </div>
-        <div class="demo-messages" id="demo-messages">
-          <!-- Messages injectés par JS -->
-          <div class="demo-placeholder" id="demo-placeholder">
+        <div class="demo-messages" data-demo-messages>
+          <div class="demo-placeholder" data-demo-placeholder>
             <span>Cliquez sur « Démarrer » pour voir la compétence en action →</span>
           </div>
         </div>
@@ -45,18 +42,17 @@ const convJson = JSON.stringify(conversation);
           Cliquez pour faire dérouler un cas réel. Toutes les données sont fictives.
         </p>
 
-        <!-- Barre de progression -->
-        <div class="demo-progress" id="demo-progress" aria-hidden="true">
+        <div class="demo-progress" aria-hidden="true">
           {conversation.map((_, i) => (
-            <div class="demo-dot" data-index={i}></div>
+            <div class="demo-dot" data-demo-dot data-index={i}></div>
           ))}
         </div>
 
         <div class="demo-buttons">
-          <button type="button" class="btn btn-lemon btn-sm" id="demo-next">
+          <button type="button" class="btn btn-lemon btn-sm" data-demo-next>
             Démarrer →
           </button>
-          <button type="button" class="btn btn-ghost btn-sm" id="demo-reset" style="display:none">
+          <button type="button" class="btn btn-ghost btn-sm" data-demo-reset style="display:none">
             Recommencer
           </button>
         </div>
@@ -67,89 +63,104 @@ const convJson = JSON.stringify(conversation);
         </div>
       </div>
     </div>
+
+    <!-- Données embarquées en JSON brut -->
+    <script type="application/json" data-demo-conv set:html={convJson}></script>
   </div>
 </section>
 
-<script is:inline>
-document.addEventListener('DOMContentLoaded', function () {
-  var dataEl = document.getElementById('demo-conv');
-  if (!dataEl) return;
-  var conv;
-  try { conv = JSON.parse(dataEl.textContent); } catch(e) { return; }
-
-  var step = -1;
-  var messagesEl = document.getElementById('demo-messages');
-  var placeholder = document.getElementById('demo-placeholder');
-  var nextBtn = document.getElementById('demo-next');
-  var resetBtn = document.getElementById('demo-reset');
-  var dots = document.querySelectorAll('.demo-dot');
-  if (!nextBtn || !resetBtn || !messagesEl) return;
-
-  function escapeHtml(s) {
-    return s
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-      .replace(/\n/g, '<br>');
-  }
-
-  function renderMessage(msg, index) {
-    var isUser = msg.role === 'user';
-    var el = document.createElement('div');
-    el.className = 'demo-msg demo-msg--' + msg.role;
-    el.style.animationDelay = '0ms';
-    el.innerHTML =
-      '<div class="demo-avatar demo-avatar--' + msg.role + '">' +
-        (isUser ? 'V' : '✦') +
-      '</div>' +
-      '<div class="demo-msg-body">' +
-        '<div class="demo-msg-label">' + (isUser ? 'Vous' : 'Claude + compétence') + '</div>' +
-        '<div class="demo-msg-text">' + escapeHtml(msg.text) + '</div>' +
-      '</div>';
-    return el;
-  }
-
-  function updateDots() {
-    dots.forEach(function (d, i) {
-      d.classList.toggle('active', i <= step);
-    });
-  }
-
-  function advance() {
-    step++;
-    if (step === 0 && placeholder) {
-      placeholder.style.display = 'none';
+<script>
+  function initDemo(root: Element) {
+    const convEl = root.querySelector<HTMLScriptElement>('script[data-demo-conv]');
+    const rawJson = convEl?.textContent ?? '';
+    let conv: Array<{ role: string; text: string }>;
+    try {
+      conv = JSON.parse(rawJson);
+    } catch (err) {
+      console.warn('[DemoSimulator] JSON parse failed', err);
+      return;
     }
-    if (step < conv.length) {
-      var msg = renderMessage(conv[step], step);
-      messagesEl.appendChild(msg);
-      msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (!Array.isArray(conv) || conv.length === 0) return;
+
+    const messagesEl = root.querySelector<HTMLElement>('[data-demo-messages]');
+    const placeholder = root.querySelector<HTMLElement>('[data-demo-placeholder]');
+    const nextBtn = root.querySelector<HTMLButtonElement>('[data-demo-next]');
+    const resetBtn = root.querySelector<HTMLButtonElement>('[data-demo-reset]');
+    const dots = root.querySelectorAll<HTMLElement>('[data-demo-dot]');
+
+    if (!messagesEl || !nextBtn || !resetBtn) return;
+
+    let step = -1;
+
+    const escapeHtml = (s: string) =>
+      s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+        .replace(/\n/g, '<br>');
+
+    const renderMessage = (msg: { role: string; text: string }) => {
+      const isUser = msg.role === 'user';
+      const el = document.createElement('div');
+      el.className = 'demo-msg demo-msg--' + msg.role;
+      el.innerHTML =
+        '<div class="demo-avatar demo-avatar--' + msg.role + '">' +
+          (isUser ? 'V' : '✦') +
+        '</div>' +
+        '<div class="demo-msg-body">' +
+          '<div class="demo-msg-label">' + (isUser ? 'Vous' : 'Claude + compétence') + '</div>' +
+          '<div class="demo-msg-text">' + escapeHtml(msg.text) + '</div>' +
+        '</div>';
+      return el;
+    };
+
+    const updateDots = () => {
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i <= step);
+      });
+    };
+
+    const advance = () => {
+      step++;
+      if (step === 0 && placeholder) placeholder.style.display = 'none';
+      if (step < conv.length) {
+        const el = renderMessage(conv[step]);
+        messagesEl.appendChild(el);
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        updateDots();
+      }
+      if (step >= conv.length - 1) {
+        nextBtn.style.display = 'none';
+        resetBtn.style.display = '';
+      } else {
+        nextBtn.textContent = 'Étape suivante →';
+      }
+    };
+
+    const reset = () => {
+      step = -1;
+      messagesEl.querySelectorAll('.demo-msg').forEach((m) => m.remove());
+      if (placeholder) placeholder.style.display = '';
+      nextBtn.textContent = 'Démarrer →';
+      nextBtn.style.display = '';
+      resetBtn.style.display = 'none';
       updateDots();
-    }
-    if (step >= conv.length - 1) {
-      nextBtn.style.display = 'none';
-      resetBtn.style.display = '';
-    } else {
-      nextBtn.textContent = 'Étape suivante →';
-    }
+    };
+
+    nextBtn.addEventListener('click', advance);
+    resetBtn.addEventListener('click', reset);
   }
 
-  function reset() {
-    step = -1;
-    // Remove all messages except placeholder
-    var msgs = messagesEl.querySelectorAll('.demo-msg');
-    msgs.forEach(function (m) { m.remove(); });
-    if (placeholder) placeholder.style.display = '';
-    nextBtn.textContent = 'Démarrer →';
-    nextBtn.style.display = '';
-    resetBtn.style.display = 'none';
-    updateDots();
-  }
+  const bootstrap = () => {
+    document.querySelectorAll('[data-demo-root]').forEach(initDemo);
+  };
 
-  nextBtn.addEventListener('click', advance);
-  resetBtn.addEventListener('click', reset);
-});
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+  } else {
+    bootstrap();
+  }
 </script>
 
 <style>
