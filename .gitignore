@@ -44,3 +44,11 @@ Thumbs.db
 # Misc
 *.zip
 *.tar.gz
+
+# Skill Factory — outputs régénérables (SKILL.md FR, ZIPs, logs, rapports)
+# Les sources (skill-fr-factory/, script automation) restent versionnées.
+logs/
+zips/
+skills/*-fr/
+# Garde l'option de commit explicite d'un skill FR finalisé :
+# !skills/marketing-agence-fr/
