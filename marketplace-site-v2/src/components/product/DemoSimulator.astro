@@ -1,0 +1,322 @@
+---
+interface Message { role: 'user' | 'claude'; text: string }
+interface Props {
+  skillName: string;
+  conversation: Message[];
+}
+const { skillName, conversation } = Astro.props;
+const convJson = JSON.stringify(conversation);
+---
+
+<section class="demo-section">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Voyez-le en action</span>
+    <h2 class="demo-title">Simulation <span class="italic">pas-à-pas.</span></h2>
+    <p class="demo-sub">
+      Cliquez pour dérouler une session réelle. Données fictives.
+    </p>
+
+    <div class="demo-layout">
+      <!-- Fenêtre Claude simulée -->
+      <div class="demo-window" id="demo-window">
+        <div class="demo-titlebar">
+          <div class="demo-dots" aria-hidden="true">
+            <span style="background:#E5645A"></span>
+            <span style="background:#E8B84A"></span>
+            <span style="background:#7AC96E"></span>
+          </div>
+          <span class="demo-titlebar-text">Claude · Compétence : {skillName}</span>
+        </div>
+        <div class="demo-messages" id="demo-messages">
+          <!-- Messages injectés par JS -->
+          <div class="demo-placeholder" id="demo-placeholder">
+            <span>Cliquez sur « Démarrer » pour voir la compétence en action →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contrôles -->
+      <div class="demo-controls">
+        <div class="demo-controls-label">Simulation interactive</div>
+        <h3 class="demo-controls-title">Voyez la compétence en action</h3>
+        <p class="demo-controls-desc">
+          Cliquez pour faire dérouler un cas réel. Toutes les données sont fictives.
+        </p>
+
+        <!-- Barre de progression -->
+        <div class="demo-progress" id="demo-progress" aria-hidden="true">
+          {conversation.map((_, i) => (
+            <div class="demo-dot" data-index={i}></div>
+          ))}
+        </div>
+
+        <div class="demo-buttons">
+          <button type="button" class="btn btn-lemon btn-sm" id="demo-next">
+            Démarrer →
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="demo-reset" style="display:none">
+            Recommencer
+          </button>
+        </div>
+
+        <div class="demo-notice">
+          <strong>Vie privée</strong> — vos vraies données ne passent jamais
+          par nos serveurs. La compétence s'exécute dans votre Claude, chez vous.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ convJson }}>
+(function () {
+  var conv = JSON.parse(convJson);
+  var step = -1;
+
+  var messagesEl = document.getElementById('demo-messages');
+  var placeholder = document.getElementById('demo-placeholder');
+  var nextBtn = document.getElementById('demo-next');
+  var resetBtn = document.getElementById('demo-reset');
+  var dots = document.querySelectorAll('.demo-dot');
+
+  function escapeHtml(s) {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function renderMessage(msg, index) {
+    var isUser = msg.role === 'user';
+    var el = document.createElement('div');
+    el.className = 'demo-msg demo-msg--' + msg.role;
+    el.style.animationDelay = '0ms';
+    el.innerHTML =
+      '<div class="demo-avatar demo-avatar--' + msg.role + '">' +
+        (isUser ? 'V' : '✦') +
+      '</div>' +
+      '<div class="demo-msg-body">' +
+        '<div class="demo-msg-label">' + (isUser ? 'Vous' : 'Claude + compétence') + '</div>' +
+        '<div class="demo-msg-text">' + escapeHtml(msg.text) + '</div>' +
+      '</div>';
+    return el;
+  }
+
+  function updateDots() {
+    dots.forEach(function (d, i) {
+      d.classList.toggle('active', i <= step);
+    });
+  }
+
+  function advance() {
+    step++;
+    if (step === 0 && placeholder) {
+      placeholder.style.display = 'none';
+    }
+    if (step < conv.length) {
+      var msg = renderMessage(conv[step], step);
+      messagesEl.appendChild(msg);
+      msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      updateDots();
+    }
+    if (step >= conv.length - 1) {
+      nextBtn.style.display = 'none';
+      resetBtn.style.display = '';
+    } else {
+      nextBtn.textContent = 'Étape suivante →';
+    }
+  }
+
+  function reset() {
+    step = -1;
+    // Remove all messages except placeholder
+    var msgs = messagesEl.querySelectorAll('.demo-msg');
+    msgs.forEach(function (m) { m.remove(); });
+    if (placeholder) placeholder.style.display = '';
+    nextBtn.textContent = 'Démarrer →';
+    nextBtn.style.display = '';
+    resetBtn.style.display = 'none';
+    updateDots();
+  }
+
+  nextBtn.addEventListener('click', advance);
+  resetBtn.addEventListener('click', reset);
+})();
+</script>
+
+<style>
+  .demo-section {
+    padding: 80px 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .demo-title {
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 20px 0 10px;
+  }
+  .demo-sub {
+    font-size: 16px;
+    color: var(--ink-3);
+    margin: 0 0 40px;
+  }
+  .demo-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .demo-layout { grid-template-columns: 1fr; }
+  }
+
+  /* Fenêtre simulée */
+  .demo-window {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+  .demo-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream-2);
+  }
+  .demo-dots {
+    display: flex;
+    gap: 5px;
+  }
+  .demo-dots span {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    display: block;
+  }
+  .demo-titlebar-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .demo-messages {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 480px;
+  }
+  .demo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 200px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    text-align: center;
+    padding: 32px;
+  }
+  .demo-msg {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: fadeUp 0.35s ease-out both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .demo-avatar {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+  }
+  .demo-avatar--user   { background: var(--ink); color: var(--cream); }
+  .demo-avatar--claude { background: var(--lemon); color: var(--ink); }
+
+  .demo-msg-body { flex: 1; min-width: 0; }
+  .demo-msg-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: 5px;
+  }
+  .demo-msg-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Contrôles */
+  .demo-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .demo-controls-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+  }
+  .demo-controls-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    margin: 0;
+  }
+  .demo-controls-desc {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .demo-progress {
+    display: flex;
+    gap: 6px;
+    padding: 4px 0;
+  }
+  .demo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: background 0.25s;
+  }
+  .demo-dot.active { background: var(--lemon-deep); }
+
+  .demo-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .demo-notice {
+    padding: 14px 16px;
+    background: var(--lemon-pale);
+    border-radius: var(--r-md);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+</style>

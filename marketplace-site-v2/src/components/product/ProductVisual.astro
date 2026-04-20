@@ -1,0 +1,117 @@
+---
+import type { Product } from '@/lib/notion';
+interface Props { product: Product }
+const { product } = Astro.props;
+const isAgent = product.type === 'Pack';
+---
+
+{product.coverUrl ? (
+  <img src={product.coverUrl} alt={product.name} class="product-visual product-visual--img" />
+) : (
+  <div class={`product-visual product-visual--gen ${isAgent ? 'is-agent' : 'is-skill'}`} aria-hidden="true">
+    <!-- Citron décoratif -->
+    <svg class="visual-lemon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="100" cy="100" rx="80" ry="55" fill="currentColor" opacity="0.18"/>
+      <ellipse cx="100" cy="100" rx="80" ry="55" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+      <path d="M 100 45 Q 130 30 180 100 Q 130 170 100 155 Q 70 170 20 100 Q 70 30 100 45Z" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+      <!-- Tige -->
+      <path d="M 100 45 Q 110 20 125 15" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+      <!-- Feuille -->
+      <path d="M 125 15 Q 145 5 150 25 Q 135 30 125 15Z" fill="currentColor" opacity="0.35"/>
+    </svg>
+
+    <!-- Badge type -->
+    <span class="visual-badge">{isAgent ? '⚡ Agent autonome' : '✦ Compétence'}</span>
+
+    <!-- Nom du skill -->
+    <h2 class="visual-name">{product.name}</h2>
+
+    <!-- Catégorie -->
+    {product.categories[0] && (
+      <span class="visual-cat">{product.categories[0]}</span>
+    )}
+  </div>
+)}
+
+<style>
+  .product-visual {
+    width: 100%;
+    border-radius: var(--r-xl);
+    display: block;
+  }
+  .product-visual--img {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border: 1px solid var(--line);
+  }
+  .product-visual--gen {
+    min-height: 320px;
+    padding: 48px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    gap: 16px;
+  }
+  .is-skill {
+    background: linear-gradient(135deg, var(--lemon-pale) 0%, #fff9d6 50%, var(--lemon-soft) 100%);
+  }
+  .is-agent {
+    background: linear-gradient(135deg, var(--ink) 0%, #2D2520 100%);
+  }
+  .visual-lemon {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 180px;
+    height: 180px;
+    transform: rotate(20deg);
+  }
+  .is-skill .visual-lemon { color: var(--lemon-deep); }
+  .is-agent .visual-lemon { color: var(--cream); }
+
+  .visual-badge {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .is-agent .visual-badge {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--cream);
+  }
+
+  .visual-name {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.1;
+    color: var(--ink);
+    max-width: 380px;
+    margin: 0;
+  }
+  .is-agent .visual-name { color: var(--cream); }
+
+  .visual-cat {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+  }
+  .is-agent .visual-cat { color: rgba(255, 248, 231, 0.5); }
+</style>

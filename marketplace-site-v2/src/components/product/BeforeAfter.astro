@@ -1,0 +1,150 @@
+---
+interface Props {
+  beforeOutput: string;
+  beforeVerdict: string;
+  afterOutput: string;
+  afterVerdict: string;
+  skillName: string;
+}
+const { beforeOutput, beforeVerdict, afterOutput, afterVerdict, skillName } = Astro.props;
+---
+
+<section class="before-after">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Avant / Après</span>
+    <h2 class="ba-title">
+      Ce que Claude produit <span class="italic">sans</span> vs <span class="italic">avec</span> ce skill.
+    </h2>
+    <p class="ba-sub">
+      Même demande. Même modèle. La différence : la compétence active.
+    </p>
+
+    <div class="ba-grid">
+      <!-- SANS -->
+      <div class="ba-card ba-card--before">
+        <div class="ba-label ba-label--before">
+          <span class="ba-dot"></span>
+          Sans le skill — Claude seul
+        </div>
+        <div class="ba-output">
+          <pre class="ba-pre">{beforeOutput}</pre>
+        </div>
+        <div class="ba-verdict ba-verdict--before">
+          <span class="ba-verdict-icon">✕</span>
+          {beforeVerdict}
+        </div>
+      </div>
+
+      <!-- AVEC -->
+      <div class="ba-card ba-card--after">
+        <div class="ba-label ba-label--after">
+          <span class="ba-dot ba-dot--after"></span>
+          Avec {skillName}
+        </div>
+        <div class="ba-output">
+          <pre class="ba-pre">{afterOutput}</pre>
+        </div>
+        <div class="ba-verdict ba-verdict--after">
+          <span class="ba-verdict-icon">✓</span>
+          {afterVerdict}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .before-after {
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .ba-title {
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 20px 0 12px;
+  }
+  .ba-sub {
+    font-size: 16px;
+    color: var(--ink-3);
+    margin: 0 0 40px;
+  }
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 768px) {
+    .ba-grid { grid-template-columns: 1fr; }
+  }
+  .ba-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ba-card--before { border-left: 4px solid #D94F4F; }
+  .ba-card--after  { border-left: 4px solid var(--leaf); background: #f5faf0; border-color: #c8ddb8; }
+
+  .ba-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .ba-label--before { color: #D94F4F; }
+  .ba-label--after  { color: var(--leaf); }
+
+  .ba-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #D94F4F;
+    flex-shrink: 0;
+  }
+  .ba-dot--after { background: var(--leaf); }
+
+  .ba-output {
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--r-md);
+    padding: 20px;
+    flex: 1;
+  }
+  .ba-pre {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .ba-verdict {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    font-style: italic;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    line-height: 1.5;
+  }
+  .ba-verdict--before { color: #D94F4F; }
+  .ba-verdict--after  { color: var(--leaf); }
+
+  .ba-verdict-icon {
+    flex-shrink: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+</style>

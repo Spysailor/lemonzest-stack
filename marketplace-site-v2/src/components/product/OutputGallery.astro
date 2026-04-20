@@ -1,0 +1,92 @@
+---
+interface Output { format: string; description: string; details: string }
+interface Props { outputs: Output[] }
+const { outputs } = Astro.props;
+---
+
+<section class="output-gallery">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Livrables concrets</span>
+    <h2 class="og-title">
+      Ce que ce skill <span class="italic">produit</span> exactement.
+    </h2>
+    <p class="og-sub">Pas des brouillons — des livrables prêts à utiliser.</p>
+
+    <div class="og-grid">
+      {outputs.map((item, i) => (
+        <div class="og-card">
+          <div class="og-num">{String(i + 1).padStart(2, '0')}</div>
+          <h3 class="og-format">{item.format}</h3>
+          <p class="og-desc">{item.description}</p>
+          <div class="og-details">{item.details}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .output-gallery {
+    padding: 80px 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .og-title {
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 20px 0 10px;
+  }
+  .og-sub {
+    font-size: 16px;
+    color: var(--ink-3);
+    margin: 0 0 48px;
+  }
+  .og-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px)  { .og-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px)  { .og-grid { grid-template-columns: 1fr; } }
+
+  .og-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .og-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+  .og-num {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-style: italic;
+    color: var(--lemon-deep);
+    line-height: 1;
+  }
+  .og-format {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .og-desc {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .og-details {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    line-height: 1.5;
+  }
+</style>

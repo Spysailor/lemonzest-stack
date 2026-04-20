@@ -1,0 +1,148 @@
+---
+interface FAQItem { q: string; a: string }
+
+const faqs: FAQItem[] = [
+  {
+    q: 'Faut-il savoir coder pour utiliser ce skill ?',
+    a: 'Non, pas du tout. Un skill s\'utilise en écrivant à Claude en langage naturel, comme vous le feriez avec un collègue expert. Il rend les réponses de Claude plus pointues et adaptées à votre métier.',
+  },
+  {
+    q: 'Mes données sont-elles envoyées à Lemon Zest ?',
+    a: 'Non. Le skill s\'exécute dans votre propre Claude. Nous ne voyons jamais vos documents ni vos conversations. Nous fournissons la "recette" — vous gardez votre cuisine.',
+  },
+  {
+    q: 'Comment installer le skill dans Claude ?',
+    a: 'Après l\'achat, vous recevez un email avec le fichier SKILL.md et un guide d\'installation pas-à-pas. Installation en moins de 2 minutes dans Claude Projects, Claude Code, ChatGPT ou Cursor.',
+  },
+  {
+    q: 'Puis-je demander un remboursement ?',
+    a: 'Oui. Vous avez 14 jours pour tester. Si ça ne vous convient pas, un simple mail à contact@lemonzestdigital.com suffit — remboursement sous 5 jours ouvrés, sans question.',
+  },
+  {
+    q: 'Quelle est la différence entre un "Skill" et un "Agent" ?',
+    a: 'Un skill s\'active à la demande : vous lui donnez un contexte, il produit un résultat. Un agent tourne en autonomie — il exécute un workflow complet et ne vous sollicite qu\'aux moments clés.',
+  },
+  {
+    q: 'Le skill est-il mis à jour ?',
+    a: 'Oui. Les mises à jour sont incluses à vie. Vous recevez une notification par email quand une nouvelle version est disponible.',
+  },
+  {
+    q: 'Je peux l\'utiliser pour mes clients ?',
+    a: 'Oui, sans limite de volume. Vous pouvez utiliser le skill dans le cadre de missions pour vos clients. Seule restriction : pas de revente ou redistribution du fichier SKILL.md lui-même.',
+  },
+  {
+    q: 'Compatible avec quelle version de Claude ?',
+    a: 'Claude Pro, Team, Enterprise et API. Le format SKILL.md est aussi compatible ChatGPT (Custom Instructions), Cursor, Claude Code et la plupart des outils IA du marché.',
+  },
+];
+---
+
+<section class="product-faq">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>FAQ</span>
+    <h2 class="faq-title">Questions <span class="italic">fréquentes.</span></h2>
+
+    <div class="faq-list" id="faq-list">
+      {faqs.map((item, i) => (
+        <div class="faq-item" data-index={i}>
+          <button
+            class="faq-q"
+            aria-expanded="false"
+            aria-controls={`faq-a-${i}`}
+            type="button"
+          >
+            <span>{item.q}</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" id={`faq-a-${i}`} hidden>
+            <p>{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(function () {
+  document.getElementById('faq-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('.faq-q');
+    if (!btn) return;
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    btn.setAttribute('aria-expanded', String(!expanded));
+    btn.querySelector('.faq-icon').textContent = expanded ? '+' : '−';
+    if (expanded) {
+      panel.hidden = true;
+    } else {
+      panel.hidden = false;
+    }
+  });
+})();
+</script>
+
+<style>
+  .product-faq {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-title {
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 20px 0 48px;
+  }
+  .faq-list {
+    max-width: 740px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    font-size: 15.5px;
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: var(--cream);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s;
+    line-height: 1.45;
+  }
+  .faq-q:hover { background: var(--lemon-pale); }
+  .faq-q[aria-expanded="true"] { background: var(--paper); }
+
+  .faq-icon {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .faq-q[aria-expanded="true"] .faq-icon { color: var(--lemon-deep); }
+
+  .faq-a {
+    padding: 0 24px 20px;
+    background: var(--paper);
+  }
+  .faq-a p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>

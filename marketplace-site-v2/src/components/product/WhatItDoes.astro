@@ -1,0 +1,91 @@
+---
+import type { Product } from '@/lib/notion';
+interface Props { product: Product }
+const { product } = Astro.props;
+
+const cat = product.categories[0]?.toLowerCase() ?? 'votre domaine';
+
+const cards = [
+  {
+    num: '01',
+    title: 'Ce qu\'il fait pour vous',
+    body: `Cette compétence transforme Claude en expert de ${cat}. Elle connaît le vocabulaire, les procédures, les pièges courants et les standards du marché francophone.`,
+  },
+  {
+    num: '02',
+    title: 'Ce dont il a besoin',
+    body: 'Vos documents de travail, un brief, ou simplement une description de votre besoin. Vous décrivez la situation à Claude — la compétence se charge du reste.',
+  },
+  {
+    num: '03',
+    title: 'Ce que vous gagnez',
+    body: 'Des livrables professionnels en français natif, conformes aux réglementations FR (RGPD, LCEN, Code du Travail…), prêts à utiliser sans retouche.',
+  },
+  {
+    num: '04',
+    title: 'Ce qu\'il ne fait PAS',
+    body: 'Il ne remplace pas votre expertise — il la prolonge. Vous restez le pilote, la compétence est votre copilote. Chaque livrable reste sous votre contrôle.',
+  },
+];
+---
+
+<section class="what-it-does">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>En détail</span>
+    <h2 class="wid-title">
+      Comment cette compétence <span class="italic">vous aide.</span>
+    </h2>
+
+    <div class="wid-grid">
+      {cards.map(card => (
+        <div class="wid-card">
+          <div class="wid-num">{card.num}</div>
+          <h3 class="wid-card-title">{card.title}</h3>
+          <p class="wid-body">{card.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .what-it-does {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .wid-title {
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 20px 0 48px;
+  }
+  .wid-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 700px) { .wid-grid { grid-template-columns: 1fr; } }
+
+  .wid-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 28px;
+  }
+  .wid-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--lemon-deep);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .wid-card-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    margin: 0 0 10px;
+  }
+  .wid-body {
+    font-size: 14.5px;
+    color: var(--ink-3);
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>
