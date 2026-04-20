@@ -1,0 +1,21 @@
+{
+  "name": "marketplace-site-v2",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lemon Zest Digital — marketplace.lemonzestdigital.com (Astro + Notion build-time fetch)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.18",
+    "@notionhq/client": "^2.2.15"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

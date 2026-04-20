@@ -16,6 +16,10 @@ dist/
 out/
 build/
 
+# Exception: marketplace-site-v2 dist IS committed (VPS serves it via bind-mount)
+!marketplace-site-v2/dist/
+!marketplace-site-v2/dist/**
+
 # Logs
 *.log
 npm-debug.log*

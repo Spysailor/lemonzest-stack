@@ -1,0 +1,55 @@
+---
+import Base from '@/layouts/Base.astro';
+---
+
+<Base
+  title="Page introuvable · Lemon Zest Digital"
+  description="La page que vous cherchez n'existe pas ou a été déplacée."
+  noindex={true}
+>
+  <section class="nf">
+    <div class="container" style="text-align: center;">
+      <div class="nf-lemon" aria-hidden="true">
+        <div class="lemon-core"></div>
+        <div class="lemon-leaf"></div>
+      </div>
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Erreur 404</span>
+      <h1>Page introuvable.</h1>
+      <p class="lead">
+        Cette page n'existe pas, ou elle a déménagé. Pas de panique, tout est juste à côté.
+      </p>
+      <div class="row gap-3" style="justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+        <a href="/" class="btn btn-lemon btn-lg">← Retour à l'accueil</a>
+        <a href="/catalogue" class="btn btn-ghost btn-lg">Voir le catalogue</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding: 96px 0 128px; }
+  .nf-lemon {
+    width: 140px; height: 140px;
+    margin: 0 auto 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFEB8A, var(--lemon) 55%, var(--lemon-deep));
+    box-shadow: inset 0 -18px 40px rgba(200, 140, 0, 0.35), 0 20px 40px rgba(232, 188, 0, 0.25);
+    position: relative;
+    animation: bob 6s ease-in-out infinite;
+  }
+  .lemon-core {
+    position: absolute; inset: 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 45%);
+  }
+  .lemon-leaf {
+    position: absolute;
+    top: -8%; left: 48%;
+    width: 22%; height: 18%;
+    background: linear-gradient(135deg, #5C8A3A, #3E6424);
+    border-radius: 60% 0 60% 60%;
+    transform: translateX(-50%) rotate(-18deg);
+  }
+  h1 { font-size: clamp(44px, 6vw, 80px); margin: 16px 0 12px; }
+  .lead { font-size: 18px; color: var(--ink-2); max-width: 48ch; margin: 0 auto; }
+</style>

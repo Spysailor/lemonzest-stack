@@ -1,0 +1,21 @@
+# marketplace-site-v2 — Astro project
+
+# Dependencies
+node_modules/
+
+# Astro generated
+.astro/
+.env
+.env.local
+.env.*.local
+
+# Build cache (but dist/ IS committed — see root .gitignore override)
+# dist/ is tracked so the VPS bind-mount can serve it without a build step.
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.log

@@ -1,0 +1,546 @@
+---
+import Base from '@/layouts/Base.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import { CATEGORIES, getAllProducts, getFeaturedProducts } from '@/lib/notion';
+
+const all = await getAllProducts();
+const featured = await getFeaturedProducts(6);
+
+// Count per category (for the métiers section)
+const countByCat = new Map<string, number>();
+for (const p of all) {
+  for (const c of p.categories) countByCat.set(c, (countByCat.get(c) ?? 0) + 1);
+}
+
+// Marquee tokens — repeat twice for seamless loop
+const marqueeWords = [
+  'Marketing', 'Compta', 'Juridique', 'RH', 'Ventes', 'Support', 'Ops', 'Tech',
+  'Prêt à l’emploi', 'Installation 2 min', 'Sans abonnement', 'Garantie 14 jours',
+];
+
+const faqs = [
+  {
+    q: 'Qu’est-ce qu’un « skill » Lemon Zest exactement ?',
+    a: 'Un skill est un pack prêt à l’emploi (prompts, procédures, templates) conçu pour un métier précis. Tu l’installes dans ton outil IA (Claude, ChatGPT, etc.) et tu es opérationnel en quelques minutes.',
+  },
+  {
+    q: 'C’est un abonnement ?',
+    a: 'Non. Tu achètes une fois, tu accèdes à vie. Les mises à jour sont incluses pour la version que tu as achetée.',
+  },
+  {
+    q: 'Comment je reçois le skill après achat ?',
+    a: 'Le paiement passe par Gumroad. Tu reçois immédiatement un email avec le lien de téléchargement + les instructions d’installation (PDF + vidéo courte).',
+  },
+  {
+    q: 'Ça marche avec quels outils ?',
+    a: 'Nos skills sont conçus d’abord pour Claude et ChatGPT. La plupart fonctionnent aussi sur Mistral, Gemini, ou tout LLM qui accepte un contexte système. On précise la compatibilité sur chaque fiche produit.',
+  },
+  {
+    q: 'Et si je ne suis pas content ?',
+    a: 'Garantie satisfait ou remboursé de 14 jours. Tu écris à contact@lemonzestdigital.com, on rembourse sans discuter.',
+  },
+];
+---
+
+<Base
+  title="Lemon Zest Digital — Marketplace de skills IA pour équipes françaises"
+  description="Des skills IA prêts à l'emploi pour marketing, compta, juridique, RH, ventes, support, ops et tech. Un paiement, un accès immédiat, des résultats mesurables."
+  current="home"
+>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy fade-in">
+        <span class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Marketplace · FR · {all.length} skill{all.length > 1 ? 's' : ''} disponible{all.length > 1 ? 's' : ''}
+        </span>
+        <h1 class="hero-title">
+          L'IA qui <span class="shine-text">bosse</span><br />
+          pour ton métier.
+        </h1>
+        <p class="hero-lead">
+          Des <strong>skills IA</strong> prêts à l'emploi pour équipes françaises.
+          Marketing, compta, juridique, RH, ventes, support, ops, tech —
+          tu achètes une fois, tu utilises pour toujours.
+        </p>
+        <div class="row gap-3 hero-ctas">
+          <a href="/catalogue" class="btn btn-lemon btn-lg">
+            Voir le catalogue <span class="icon-arrow">→</span>
+          </a>
+          <a href="/comment-ca-marche" class="btn btn-ghost btn-lg">Comment ça marche</a>
+        </div>
+        <div class="row gap-6 hero-trust">
+          <div class="trust-item">
+            <span class="trust-num">14j</span>
+            <span class="trust-lbl">satisfait<br />ou remboursé</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-num">2 min</span>
+            <span class="trust-lbl">d'installation<br />dans ton IA</span>
+          </div>
+          <div class="trust-item">
+            <span class="trust-num">∞</span>
+            <span class="trust-lbl">mises à jour<br />incluses</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="lemon-big lemon-bob">
+          <div class="lemon-core"></div>
+          <div class="lemon-leaf"></div>
+        </div>
+        <div class="hero-card hero-card-1">
+          <span class="tag tag-lemon">Nouveau</span>
+          <div class="hero-card-title">Skill Marketing Agence FR</div>
+          <div class="mono-sm">99 € · Marketing</div>
+        </div>
+        <div class="hero-card hero-card-2">
+          <span class="mono-sm">→ Installation prête en 2 min</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ MARQUEE ═══════════════════════ -->
+  <section class="marquee">
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        {[...marqueeWords, ...marqueeWords].map((w) => (
+          <span class="marquee-item">
+            <span class="marquee-dot" aria-hidden="true">●</span>
+            {w}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CATÉGORIES ═══════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span>Par métier</span>
+        <h2>8 métiers. <span class="italic" style="font-style: italic; color: var(--ink-2);">Un skill par besoin.</span></h2>
+        <p class="section-lead">Choisis ta fonction, on t’amène directement aux skills conçus pour toi.</p>
+      </div>
+
+      <div class="grid-4 metiers-grid">
+        {CATEGORIES.map((c) => (
+          <a href={`/metiers/${c.slug}`} class="card metier-card clickable">
+            <div class="metier-emoji" aria-hidden="true">{c.emoji}</div>
+            <div class="metier-body">
+              <h3 class="metier-label">{c.label}</h3>
+              <p class="metier-blurb">{c.blurb}</p>
+              <span class="mono-sm metier-count">
+                {(countByCat.get(c.label) ?? 0)} skill{(countByCat.get(c.label) ?? 0) > 1 ? 's' : ''}
+                <span class="icon-arrow" style="margin-left:6px;">→</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FEATURED PRODUITS ═══════════════════════ -->
+  {featured.length > 0 && (
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head row items-center justify-between" style="gap: 24px; flex-wrap: wrap;">
+          <div>
+            <span class="eyebrow"><span class="eyebrow-dot"></span>Mis en avant</span>
+            <h2>Les skills <span style="font-style:italic; color: var(--ink-2);">qui tournent</span>.</h2>
+          </div>
+          <a href="/catalogue" class="btn btn-ghost">
+            Tout le catalogue <span class="icon-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="grid-3">
+          {featured.map((p) => <ProductCard product={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ═══════════════════════ COMMENT ÇA MARCHE ═══════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span>3 étapes</span>
+        <h2>Comment <span style="font-style:italic; color: var(--ink-2);">ça marche</span>.</h2>
+      </div>
+
+      <div class="grid-3 steps-grid">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Tu choisis ton skill</h3>
+          <p>Parcours le catalogue par métier. Chaque fiche décrit exactement ce que fait le skill, sur quels outils, et ce que tu reçois.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Tu paies une fois</h3>
+          <p>Paiement sécurisé via Gumroad (CB, Apple Pay, PayPal). Livraison immédiate par email, TVA gérée, facture fournie.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Tu installes en 2 min</h3>
+          <p>Tu copies le skill dans Claude, ChatGPT ou ton IA préférée. Le PDF d'installation t'accompagne pas à pas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FAQ ═══════════════════════ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span>FAQ</span>
+        <h2>Les questions <span style="font-style:italic; color: var(--ink-2);">qu'on nous pose</span>.</h2>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map((f, i) => (
+          <details class="faq-item" open={i === 0}>
+            <summary>
+              <span class="faq-q">{f.q}</span>
+              <span class="faq-chev" aria-hidden="true">+</span>
+            </summary>
+            <p class="faq-a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Ton premier skill, <span style="font-style:italic; color: var(--ink-2);">dans 2 minutes</span>.</h2>
+        <p class="cta-lead">
+          Parcours les skills disponibles et démarre aujourd'hui.
+          Garantie 14 jours, pas d'abonnement, pas de piège.
+        </p>
+        <div class="row gap-3 cta-ctas">
+          <a href="/catalogue" class="btn btn-lemon btn-lg">
+            Voir les skills <span class="icon-arrow">→</span>
+          </a>
+          <a href="/entreprises" class="btn btn-ghost btn-lg">Pour les équipes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ═══════ Hero ═══════ */
+  .hero {
+    padding: 64px 0 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-title {
+    font-size: clamp(44px, 6.5vw, 88px);
+    margin: 24px 0 20px;
+    line-height: 1;
+  }
+  .hero-lead {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 56ch;
+    line-height: 1.5;
+  }
+  .hero-ctas { margin-top: 28px; }
+  .hero-trust {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .trust-item {
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .trust-num {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .trust-lbl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 520px;
+    justify-self: center;
+  }
+  .lemon-big {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFEB8A, var(--lemon) 55%, var(--lemon-deep));
+    box-shadow:
+      inset 0 -30px 60px rgba(200, 140, 0, 0.4),
+      0 40px 80px rgba(232, 188, 0, 0.35);
+  }
+  .lemon-core {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 45%);
+  }
+  .lemon-leaf {
+    position: absolute;
+    top: -6%; left: 48%;
+    width: 22%; height: 18%;
+    background: linear-gradient(135deg, #5C8A3A, #3E6424);
+    border-radius: 60% 0 60% 60%;
+    transform: translateX(-50%) rotate(-18deg);
+    box-shadow: 0 6px 16px rgba(62, 100, 36, 0.3);
+  }
+  .hero-card {
+    position: absolute;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 12px 16px;
+    box-shadow: var(--shadow-card);
+    font-size: 13.5px;
+  }
+  .hero-card-1 {
+    top: 8%; right: -6%;
+    display: flex; flex-direction: column; gap: 6px;
+    min-width: 220px;
+  }
+  .hero-card-title {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.15;
+  }
+  .hero-card-2 {
+    bottom: 10%; left: -10%;
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .hero-card-2 .mono-sm { color: #b8ae9e; }
+
+  /* ═══════ Marquee ═══════ */
+  .marquee {
+    padding: 22px 0;
+    background: var(--ink);
+    color: var(--cream);
+    border-top: 1px solid #2a251f;
+    border-bottom: 1px solid #2a251f;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .marquee-dot {
+    color: var(--lemon);
+    font-size: 8px;
+  }
+
+  /* ═══════ Sections génériques ═══════ */
+  .section { padding: 80px 0; }
+  .section-alt { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section-head { margin-bottom: 48px; }
+  .section-head h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    margin: 16px 0 12px;
+  }
+  .section-lead {
+    max-width: 56ch;
+    color: var(--ink-2);
+    font-size: 16.5px;
+  }
+
+  /* ═══════ Métiers ═══════ */
+  .metiers-grid { gap: 20px; }
+  .metier-card {
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 14px;
+    text-decoration: none;
+  }
+  .metier-emoji {
+    font-size: 32px;
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: var(--cream-2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .metier-label {
+    font-size: 22px;
+    font-family: var(--font-serif);
+  }
+  .metier-blurb {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    line-height: 1.45;
+    margin: 0;
+  }
+  .metier-count {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    display: inline-flex; align-items: center;
+    font-size: 12px;
+  }
+  .metier-card:hover .icon-arrow { transform: translateX(4px); }
+
+  /* ═══════ Étapes ═══════ */
+  .steps-grid { gap: 28px; }
+  .step {
+    padding: 28px 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--lemon-deep);
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--lemon-pale);
+    border-radius: 999px;
+    align-self: flex-start;
+  }
+  .step h3 {
+    font-size: 22px;
+  }
+  .step p {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ═══════ FAQ ═══════ */
+  .faq-list {
+    display: flex; flex-direction: column;
+    gap: 10px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .faq-item[open] {
+    background: var(--paper);
+    border-color: var(--lemon-soft);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-q {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .faq-chev {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--ink-3);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .faq-item[open] .faq-chev {
+    transform: rotate(45deg);
+    color: var(--lemon-deep);
+  }
+  .faq-a {
+    padding: 0 22px 20px;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ═══════ Final CTA ═══════ */
+  .cta-section { padding: 80px 0 96px; }
+  .cta-card {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a231d 100%);
+    color: var(--cream);
+    border-radius: var(--r-xl);
+    padding: 64px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--lemon) 0%, transparent 70%);
+    opacity: 0.25;
+  }
+  .cta-card h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    color: var(--cream);
+    position: relative;
+  }
+  .cta-lead {
+    max-width: 54ch;
+    margin: 18px auto 28px;
+    color: #d9d0c2;
+    font-size: 17px;
+    position: relative;
+  }
+  .cta-ctas {
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ═══════ Responsive ═══════ */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-visual { max-width: 400px; margin-top: 16px; }
+    .hero-trust { gap: 24px; flex-wrap: wrap; }
+    .section { padding: 56px 0; }
+    .section-head { margin-bottom: 32px; }
+  }
+  @media (max-width: 720px) {
+    .hero { padding: 40px 0 32px; }
+    .hero-trust { gap: 16px; }
+    .trust-num { font-size: 24px; }
+    .marquee-item { font-size: 18px; }
+    .step { padding: 22px 20px; }
+    .cta-card { padding: 40px 24px; border-radius: var(--r-lg); }
+    .cta-ctas { flex-direction: column; align-items: stretch; }
+    .cta-ctas .btn { justify-content: center; }
+  }
+</style>

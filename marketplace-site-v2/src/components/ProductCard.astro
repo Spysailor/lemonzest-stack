@@ -1,0 +1,159 @@
+---
+import type { Product } from '@/lib/notion';
+import { formatPrice, categorySlug } from '@/lib/notion';
+
+interface Props {
+  product: Product;
+  compact?: boolean;
+}
+const { product, compact = false } = Astro.props;
+
+const isLive = product.status === 'Live';
+const hasBuy = isLive && !!product.gumroadSlug;
+
+// Badge → tag variant
+const badgeClass =
+  product.badge === 'Nouveau'      ? 'tag tag-lemon' :
+  product.badge === 'Best-seller'  ? 'tag tag-zest'  :
+  product.badge === 'Promo'        ? 'tag tag-promo' :
+  product.badge === 'Beta'         ? 'tag tag-beta'  :
+  null;
+
+const firstCat = product.categories[0] ?? null;
+const firstCatSlug = firstCat ? categorySlug(firstCat) : null;
+const shownBullets = product.bullets.slice(0, compact ? 2 : 3);
+---
+
+<article class="card card--product clickable">
+  <a href={`/produits/${product.slug}`} class="card-cover-link" aria-label={product.name}>
+    {product.coverUrl ? (
+      <img src={product.coverUrl} alt="" class="card-cover" loading="lazy" />
+    ) : (
+      <div class="placeholder card-cover" aria-hidden="true">
+        Visuel — {product.name}
+      </div>
+    )}
+    {(badgeClass || !isLive) && (
+      <div class="card-badges">
+        {badgeClass && <span class={badgeClass}>{product.badge}</span>}
+        {!isLive && <span class="tag tag-soon">Bientôt</span>}
+      </div>
+    )}
+  </a>
+
+  <div class="card-body">
+    <div class="card-head">
+      {firstCat && firstCatSlug && (
+        <a href={`/metiers/${firstCatSlug}`} class="mono-sm" style="text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px;">
+          {firstCat}
+        </a>
+      )}
+      {product.type && <span class="mono-sm">· {product.type}</span>}
+    </div>
+
+    <h3 class="card-title">
+      <a href={`/produits/${product.slug}`}>{product.name}</a>
+    </h3>
+
+    {product.tagline && <p class="card-tagline">{product.tagline}</p>}
+
+    {shownBullets.length > 0 && (
+      <ul class="card-bullets">
+        {shownBullets.map((b) => <li>{b}</li>)}
+      </ul>
+    )}
+
+    <div class="card-foot">
+      <span class="card-price">{formatPrice(product.price, product.currency)}</span>
+      {hasBuy ? (
+        <a href={`/produits/${product.slug}`} class="btn btn-primary btn-sm">
+          Voir le produit <span class="icon-arrow">→</span>
+        </a>
+      ) : (
+        <span class="btn btn-ghost btn-sm" aria-disabled="true">Bientôt disponible</span>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .card--product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .card-cover-link {
+    position: relative;
+    display: block;
+    background: var(--cream-2);
+  }
+  .card-cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .card-badges {
+    position: absolute;
+    top: 12px; left: 12px;
+    display: flex; gap: 6px;
+  }
+  .card-body {
+    padding: 18px 20px 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1;
+  }
+  .card-head {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--ink-3);
+  }
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 2px 0 0;
+  }
+  .card-title a:hover { color: var(--ink-2); }
+  .card-tagline {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    margin: 0;
+    line-height: 1.45;
+  }
+  .card-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 2px 0 0;
+    display: flex; flex-direction: column; gap: 4px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+  }
+  .card-bullets li {
+    padding-left: 16px;
+    position: relative;
+  }
+  .card-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 2px; top: 9px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lemon);
+  }
+  .card-foot {
+    margin-top: auto;
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .card-price {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+</style>

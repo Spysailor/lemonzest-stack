@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  emoji?: string;
+  active?: boolean;
+  count?: number;
+}
+const { href, label, emoji, active = false, count } = Astro.props;
+---
+
+<a href={href} class="chip" aria-pressed={active ? 'true' : 'false'}>
+  {emoji && <span aria-hidden="true">{emoji}</span>}
+  <span>{label}</span>
+  {typeof count === 'number' && (
+    <span class="mono-sm" style="opacity:0.7;">({count})</span>
+  )}
+</a>
+
+<style>
+  .chip { text-decoration: none; }
+</style>

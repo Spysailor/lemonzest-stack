@@ -1,0 +1,140 @@
+---
+import Base from '@/layouts/Base.astro';
+
+const steps = [
+  {
+    num: '01',
+    title: 'Tu choisis ton skill',
+    text: 'Parcours le catalogue par métier. Chaque fiche décrit précisément ce que fait le skill, pour quels outils IA, et ce que tu reçois concrètement (prompts, templates, procédure, vidéo).',
+    bullet: 'Accès au catalogue sans inscription',
+  },
+  {
+    num: '02',
+    title: 'Tu paies une fois — paiement sécurisé',
+    text: 'Le paiement passe par Gumroad (CB, Apple Pay, Google Pay, PayPal). Pas d\'abonnement, pas de carte qui reste enregistrée. TVA gérée pour la France et l\'UE, facture fournie au nom de ta structure.',
+    bullet: 'Paiement 100% sécurisé · Facture automatique',
+  },
+  {
+    num: '03',
+    title: 'Tu reçois le skill par email immédiatement',
+    text: 'Dès que le paiement est validé, tu reçois un email avec : le fichier du skill, le PDF d\'installation, la vidéo de prise en main (2 min), et les mises à jour à vie.',
+    bullet: 'Livraison < 30 secondes',
+  },
+  {
+    num: '04',
+    title: 'Tu installes dans ton IA préférée',
+    text: 'Le skill s\'installe par copier-coller dans Claude, ChatGPT, Mistral, Gemini — ou tout LLM qui accepte un contexte système. Deux minutes montre en main, le PDF te guide pas à pas.',
+    bullet: 'Compatible Claude · ChatGPT · autres LLMs',
+  },
+  {
+    num: '05',
+    title: 'Tu l\'utilises. Pour de vrai.',
+    text: 'Tu démarres par les cas d\'usage du PDF. La plupart de nos clients sont productifs dès la première journée. Si ce n\'est pas le cas, on te rembourse sous 14 jours, sans discuter.',
+    bullet: 'Garantie 14 jours satisfait ou remboursé',
+  },
+];
+---
+
+<Base
+  title="Comment ça marche — Lemon Zest Digital"
+  description="5 étapes simples pour acheter, recevoir et installer un skill IA Lemon Zest. Paiement unique, livraison immédiate, garantie 14 jours."
+  current="comment"
+>
+  <section class="section">
+    <div class="container">
+      <div class="section-head" style="margin: 32px auto 56px; max-width: 720px; text-align: center;">
+        <span class="eyebrow"><span class="eyebrow-dot"></span>Process</span>
+        <h1 style="font-size: clamp(44px, 6vw, 80px); margin: 20px 0 16px;">
+          Comment <span style="font-style:italic; color: var(--ink-2);">ça marche</span>.
+        </h1>
+        <p style="font-size: 17.5px; color: var(--ink-2);">
+          Cinq étapes. Zéro friction. De l'achat au premier résultat, on vise
+          <strong>30 minutes maximum</strong>.
+        </p>
+      </div>
+
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="step-card">
+            <div class="step-left">
+              <span class="step-num">{s.num}</span>
+            </div>
+            <div class="step-right">
+              <h2>{s.title}</h2>
+              <p>{s.text}</p>
+              <span class="tag tag-lemon">{s.bullet}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="bottom-cta">
+        <h3>Prêt à essayer ?</h3>
+        <div class="row gap-3" style="justify-content: center;">
+          <a href="/catalogue" class="btn btn-lemon btn-lg">Voir les skills <span class="icon-arrow">→</span></a>
+          <a href="/entreprises" class="btn btn-ghost btn-lg">Pour les équipes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section { padding: 56px 0 96px; }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; flex-direction: column;
+    gap: 20px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .step-card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 24px;
+    padding: 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    align-items: start;
+  }
+  .step-left { display: flex; justify-content: center; }
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    line-height: 1;
+    color: var(--lemon-deep);
+    background: var(--lemon-pale);
+    padding: 14px 16px;
+    border-radius: var(--r-md);
+    min-width: 72px;
+    text-align: center;
+  }
+  .step-right h2 {
+    font-size: 26px;
+    margin: 0 0 10px;
+  }
+  .step-right p {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .bottom-cta {
+    margin-top: 80px;
+    text-align: center;
+    padding: 48px 32px;
+    background: var(--cream-2);
+    border-radius: var(--r-lg);
+  }
+  .bottom-cta h3 {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 720px) {
+    .step-card { grid-template-columns: 1fr; padding: 22px; }
+    .step-left { justify-content: flex-start; }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import { CATEGORIES } from '@/lib/notion';
+
+const year = new Date().getFullYear();
+// Keep the footer category list short (top 6) — avoids wrapping on tablet.
+const footerCats = CATEGORIES.slice(0, 6);
+---
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <a href="/" class="logo" style="margin-bottom: 16px;">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-text" style="color: var(--cream);">
+          Lemon Zest <span class="italic" style="color:#b8ae9e;">Digital</span>
+        </span>
+      </a>
+      <p style="max-width: 34ch; font-size: 14px; color:#b8ae9e; margin-top: 12px;">
+        Des skills IA prêts à l'emploi pour équipes françaises.
+        Un paiement, un accès immédiat, des résultats mesurables.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Catalogue</h4>
+      <ul>
+        <li><a href="/catalogue">Tous les produits</a></li>
+        {footerCats.map((c) => (
+          <li><a href={`/metiers/${c.slug}`}>{c.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Ressources</h4>
+      <ul>
+        <li><a href="/comment-ca-marche">Comment ça marche</a></li>
+        <li><a href="/entreprises">Pour les entreprises</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="mailto:contact@lemonzestdigital.com">Nous contacter</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Légal</h4>
+      <ul>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/cgv">CGV</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="/cookies">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© {year} Lemon Zest Digital — Tous droits réservés</span>
+    <span class="mono-sm" style="color:#8a8075;">
+      Fait avec <span style="color: var(--lemon);">●</span> à Paris
+    </span>
+  </div>
+</footer>

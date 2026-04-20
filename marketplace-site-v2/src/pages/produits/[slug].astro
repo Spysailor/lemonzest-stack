@@ -1,0 +1,262 @@
+---
+import Base from '@/layouts/Base.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import { getAllProducts, formatPrice, categorySlug } from '@/lib/notion';
+import type { Product } from '@/lib/notion';
+
+export async function getStaticPaths() {
+  const products = await getAllProducts();
+  return products.map((p) => ({
+    params: { slug: p.slug },
+    props: { product: p, all: products },
+  }));
+}
+
+interface Props { product: Product; all: Product[]; }
+const { product, all } = Astro.props;
+
+const isLive = product.status === 'Live';
+const hasBuy = isLive && !!product.gumroadSlug;
+
+// Related: same first category, excluding self, max 3
+const firstCat = product.categories[0];
+const related = all
+  .filter((p) => p.id !== product.id && (firstCat ? p.categories.includes(firstCat) : false))
+  .slice(0, 3);
+
+// Badge styling (same mapping as card)
+const badgeClass =
+  product.badge === 'Nouveau'      ? 'tag tag-lemon' :
+  product.badge === 'Best-seller'  ? 'tag tag-zest'  :
+  product.badge === 'Promo'        ? 'tag tag-promo' :
+  product.badge === 'Beta'         ? 'tag tag-beta'  :
+  null;
+
+// Gumroad URL: relative /acheter still works thanks to nginx rewrite,
+// but for resilience on v3 we link directly to the Gumroad subdomain URL
+// that mapPage() has already constructed.
+const buyUrl = product.gumroadUrl ?? '/acheter';
+---
+
+<Base
+  title={`${product.name} — ${formatPrice(product.price, product.currency)} · Lemon Zest Digital`}
+  description={product.tagline || `${product.name} — skill IA prêt à l'emploi`}
+  ogImage={product.coverUrl ?? '/og-default.png'}
+>
+  <section class="product">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/">Accueil</a>
+        <span aria-hidden="true">›</span>
+        <a href="/catalogue">Catalogue</a>
+        {firstCat && (
+          <>
+            <span aria-hidden="true">›</span>
+            <a href={`/metiers/${categorySlug(firstCat)}`}>{firstCat}</a>
+          </>
+        )}
+      </nav>
+
+      <div class="product-grid">
+        <!-- LEFT: visual + gallery -->
+        <div class="product-media">
+          {product.coverUrl ? (
+            <img src={product.coverUrl} alt={product.name} class="cover" />
+          ) : (
+            <div class="placeholder cover" aria-hidden="true">Visuel — {product.name}</div>
+          )}
+
+          {product.galleryUrls.length > 0 && (
+            <div class="gallery">
+              {product.galleryUrls.map((url, i) => (
+                <img src={url} alt={`${product.name} — visuel ${i + 1}`} loading="lazy" />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- RIGHT: info + CTA -->
+        <div class="product-info">
+          <div class="product-head">
+            {product.categories.map((c) => (
+              <a href={`/metiers/${categorySlug(c)}`} class="tag">{c}</a>
+            ))}
+            {product.type && <span class="tag tag-leaf">{product.type}</span>}
+            {badgeClass && <span class={badgeClass}>{product.badge}</span>}
+            {!isLive && <span class="tag tag-soon">Bientôt</span>}
+          </div>
+
+          <h1 class="product-name">{product.name}</h1>
+          {product.tagline && <p class="tagline">{product.tagline}</p>}
+
+          {product.bullets.length > 0 && (
+            <ul class="bullets">
+              {product.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+
+          <div class="price-block">
+            <div class="price-row">
+              <span class="price">{formatPrice(product.price, product.currency)}</span>
+              <span class="mono-sm">paiement unique · TVA incluse</span>
+            </div>
+            {hasBuy ? (
+              <a href={buyUrl} class="btn btn-lemon btn-lg buy-cta">
+                Acheter maintenant <span class="icon-arrow">→</span>
+              </a>
+            ) : (
+              <span class="btn btn-ghost btn-lg" aria-disabled="true">Bientôt disponible</span>
+            )}
+            <ul class="guarantees">
+              <li>✓ Livraison immédiate par email</li>
+              <li>✓ Garantie 14 jours satisfait ou remboursé</li>
+              <li>✓ Mises à jour incluses</li>
+              <li>✓ Facture fournie (Lemon Zest Digital, France)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {product.description && (
+        <div class="product-desc">
+          <h2>À propos de ce skill</h2>
+          <p>{product.description}</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow"><span class="eyebrow-dot"></span>Dans la même veine</span>
+          <h2>Tu pourrais aussi aimer.</h2>
+        </div>
+        <div class="grid-3">
+          {related.map((p) => <ProductCard product={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .product { padding: 32px 0 72px; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a { color: var(--ink-2); }
+  .breadcrumb a:hover { color: var(--ink); }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .product-media { position: sticky; top: 96px; }
+  .cover {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--r-lg);
+    background: var(--cream-2);
+    border: 1px solid var(--line);
+    display: block;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .gallery img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line);
+  }
+
+  .product-info { display: flex; flex-direction: column; gap: 20px; }
+  .product-head { display: flex; flex-wrap: wrap; gap: 8px; }
+  .product-name {
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    margin: 0;
+  }
+  .tagline {
+    font-size: 18px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .bullets {
+    display: flex; flex-direction: column; gap: 8px;
+    list-style: none;
+    padding: 0; margin: 0;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  .bullets li {
+    padding-left: 26px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .bullets li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--lemon-pale);
+    color: var(--lemon-deep);
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .price-block {
+    margin-top: 12px;
+    padding: 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .price-row {
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .price {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    line-height: 1;
+  }
+  .buy-cta { justify-content: center; }
+  .guarantees {
+    list-style: none; padding: 0; margin: 4px 0 0;
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .product-desc {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    max-width: 72ch;
+  }
+  .product-desc h2 { font-size: 32px; margin-bottom: 16px; }
+  .product-desc p { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; white-space: pre-line; }
+
+  @media (max-width: 1024px) {
+    .product-grid { grid-template-columns: 1fr; gap: 32px; }
+    .product-media { position: static; }
+  }
+</style>

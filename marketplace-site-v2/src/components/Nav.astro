@@ -1,0 +1,40 @@
+---
+// Sticky top nav. The active link is marked via aria-current for a11y + CSS.
+// Usage: <Nav current="home" /> — current maps to a known key.
+type NavKey = 'home' | 'catalogue' | 'metiers' | 'comment' | 'entreprises' | null;
+interface Props {
+  current?: NavKey;
+}
+const { current = null } = Astro.props;
+
+const links: { key: NavKey; href: string; label: string }[] = [
+  { key: 'catalogue',   href: '/catalogue',           label: 'Catalogue' },
+  { key: 'metiers',     href: '/metiers',             label: 'Par métier' },
+  { key: 'comment',     href: '/comment-ca-marche',   label: 'Comment ça marche' },
+  { key: 'entreprises', href: '/entreprises',         label: 'Entreprises' },
+];
+---
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo" aria-label="Lemon Zest Digital — accueil">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-text">Lemon Zest <span class="italic">Digital</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigation principale">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class="nav-link"
+          aria-current={current === l.key ? 'page' : undefined}
+        >{l.label}</a>
+      ))}
+    </nav>
+
+    <div class="nav-right">
+      <a href="/catalogue" class="btn btn-ghost btn-sm">Parcourir</a>
+      <a href="/catalogue" class="btn btn-lemon btn-sm">Acheter un skill</a>
+    </div>
+  </div>
+</header>
