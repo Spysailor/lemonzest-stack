@@ -69,98 +69,96 @@ const convJson = JSON.stringify(conversation);
   </div>
 </section>
 
-<script>
-  function initDemo(root: Element) {
-    const convEl = root.querySelector<HTMLScriptElement>('script[data-demo-conv]');
-    const rawJson = convEl?.textContent ?? '';
-    let conv: Array<{ role: string; text: string }>;
-    try {
-      conv = JSON.parse(rawJson);
-    } catch (err) {
-      console.warn('[DemoSimulator] JSON parse failed', err);
-      return;
-    }
-    if (!Array.isArray(conv) || conv.length === 0) return;
+<script is:inline>
+  (function () {
+    function initDemo(root) {
+      var convEl = root.querySelector('script[data-demo-conv]');
+      var rawJson = (convEl && convEl.textContent) || '';
+      var conv;
+      try { conv = JSON.parse(rawJson); }
+      catch (err) { console.warn('[DemoSimulator] JSON parse failed', err); return; }
+      if (!Array.isArray(conv) || conv.length === 0) return;
 
-    const messagesEl = root.querySelector<HTMLElement>('[data-demo-messages]');
-    const placeholder = root.querySelector<HTMLElement>('[data-demo-placeholder]');
-    const nextBtn = root.querySelector<HTMLButtonElement>('[data-demo-next]');
-    const resetBtn = root.querySelector<HTMLButtonElement>('[data-demo-reset]');
-    const dots = root.querySelectorAll<HTMLElement>('[data-demo-dot]');
+      var messagesEl = root.querySelector('[data-demo-messages]');
+      var placeholder = root.querySelector('[data-demo-placeholder]');
+      var nextBtn = root.querySelector('[data-demo-next]');
+      var resetBtn = root.querySelector('[data-demo-reset]');
+      var dots = root.querySelectorAll('[data-demo-dot]');
+      if (!messagesEl || !nextBtn || !resetBtn) return;
 
-    if (!messagesEl || !nextBtn || !resetBtn) return;
+      var step = -1;
 
-    let step = -1;
+      function escapeHtml(s) {
+        return s
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+          .replace(/\n/g, '<br>');
+      }
 
-    const escapeHtml = (s: string) =>
-      s
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-        .replace(/\n/g, '<br>');
+      function renderMessage(msg) {
+        var isUser = msg.role === 'user';
+        var el = document.createElement('div');
+        el.className = 'demo-msg demo-msg--' + msg.role;
+        el.innerHTML =
+          '<div class="demo-avatar demo-avatar--' + msg.role + '">' +
+            (isUser ? 'V' : '✦') +
+          '</div>' +
+          '<div class="demo-msg-body">' +
+            '<div class="demo-msg-label">' + (isUser ? 'Vous' : 'Claude + compétence') + '</div>' +
+            '<div class="demo-msg-text">' + escapeHtml(msg.text) + '</div>' +
+          '</div>';
+        return el;
+      }
 
-    const renderMessage = (msg: { role: string; text: string }) => {
-      const isUser = msg.role === 'user';
-      const el = document.createElement('div');
-      el.className = 'demo-msg demo-msg--' + msg.role;
-      el.innerHTML =
-        '<div class="demo-avatar demo-avatar--' + msg.role + '">' +
-          (isUser ? 'V' : '✦') +
-        '</div>' +
-        '<div class="demo-msg-body">' +
-          '<div class="demo-msg-label">' + (isUser ? 'Vous' : 'Claude + compétence') + '</div>' +
-          '<div class="demo-msg-text">' + escapeHtml(msg.text) + '</div>' +
-        '</div>';
-      return el;
-    };
+      function updateDots() {
+        Array.prototype.forEach.call(dots, function (d, i) {
+          d.classList.toggle('active', i <= step);
+        });
+      }
 
-    const updateDots = () => {
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i <= step);
-      });
-    };
+      function advance() {
+        step++;
+        if (step === 0 && placeholder) placeholder.style.display = 'none';
+        if (step < conv.length) {
+          var el = renderMessage(conv[step]);
+          messagesEl.appendChild(el);
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          updateDots();
+        }
+        if (step >= conv.length - 1) {
+          nextBtn.style.display = 'none';
+          resetBtn.style.display = '';
+        } else {
+          nextBtn.textContent = 'Étape suivante →';
+        }
+      }
 
-    const advance = () => {
-      step++;
-      if (step === 0 && placeholder) placeholder.style.display = 'none';
-      if (step < conv.length) {
-        const el = renderMessage(conv[step]);
-        messagesEl.appendChild(el);
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      function reset() {
+        step = -1;
+        Array.prototype.forEach.call(
+          messagesEl.querySelectorAll('.demo-msg'),
+          function (m) { m.remove(); }
+        );
+        if (placeholder) placeholder.style.display = '';
+        nextBtn.textContent = 'Démarrer →';
+        nextBtn.style.display = '';
+        resetBtn.style.display = 'none';
         updateDots();
       }
-      if (step >= conv.length - 1) {
-        nextBtn.style.display = 'none';
-        resetBtn.style.display = '';
-      } else {
-        nextBtn.textContent = 'Étape suivante →';
-      }
-    };
 
-    const reset = () => {
-      step = -1;
-      messagesEl.querySelectorAll('.demo-msg').forEach((m) => m.remove());
-      if (placeholder) placeholder.style.display = '';
-      nextBtn.textContent = 'Démarrer →';
-      nextBtn.style.display = '';
-      resetBtn.style.display = 'none';
-      updateDots();
-    };
+      nextBtn.addEventListener('click', advance);
+      resetBtn.addEventListener('click', reset);
+    }
 
-    nextBtn.addEventListener('click', advance);
-    resetBtn.addEventListener('click', reset);
-  }
-
-  const bootstrap = () => {
-    document.querySelectorAll('[data-demo-root]').forEach(initDemo);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrap);
-  } else {
-    bootstrap();
-  }
+    // Script is placed at the end of the component; elements above exist now.
+    // Initialize every demo root on the page.
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-demo-root]'),
+      initDemo
+    );
+  })();
 </script>
 
 <style>
