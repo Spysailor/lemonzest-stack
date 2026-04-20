@@ -4,7 +4,7 @@
 // before paint to avoid a flash of visible banner once dismissed.
 ---
 
-<div id="announcement-bar" class="announce" hidden>
+<div id="announcement-bar" class="announce">
   <span class="announce-emoji" aria-hidden="true">🔥</span>
   <span class="announce-highlight">Early Bird -50 %</span>
   <span class="announce-text">Offre valable jusqu'au 30 avril 2026</span>
@@ -14,19 +14,23 @@
 
 <script is:inline>
   (function () {
-    const bar = document.getElementById('announcement-bar');
+    var bar = document.getElementById('announcement-bar');
     if (!bar) return;
-    if (localStorage.getItem('lz-announce-dismissed') === '1') return;
-    bar.hidden = false;
-    document.getElementById('announcement-close')?.addEventListener('click', function () {
+    if (localStorage.getItem('lz-announce-dismissed') === '1') {
+      bar.style.display = 'none';
+      return;
+    }
+    bar.style.display = 'flex';
+    document.getElementById('announcement-close').addEventListener('click', function () {
       localStorage.setItem('lz-announce-dismissed', '1');
-      bar.hidden = true;
+      bar.style.display = 'none';
     });
   })();
 </script>
 
 <style>
   .announce {
+    display: none; /* shown via JS */
     background: var(--ink);
     color: var(--cream);
     padding: 10px 56px 10px 24px;

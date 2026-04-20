@@ -1,9 +1,9 @@
 ---
-// RGPD cookie banner. Shown until the user makes a choice
-// (accept / essentials only). Client-side only — no tracking installed.
+// RGPD cookie banner. Shown until the user makes a choice.
+// Uses a CSS class toggle instead of [hidden] to avoid display:flex override.
 ---
 
-<div id="cookie-banner" class="cookie" role="dialog" aria-labelledby="cookie-title" hidden>
+<div id="cookie-banner" class="cookie" role="dialog" aria-labelledby="cookie-title">
   <div class="cookie-body">
     <div id="cookie-title" class="cookie-title">🍋 Ce site utilise des cookies</div>
     <p class="cookie-text">
@@ -22,21 +22,33 @@
 
 <script is:inline>
   (function () {
-    const banner = document.getElementById('cookie-banner');
+    var banner = document.getElementById('cookie-banner');
     if (!banner) return;
-    if (localStorage.getItem('lz-cookies')) return;
-    banner.hidden = false;
-    const close = function (choice) {
+    // Hide immediately if already consented
+    if (localStorage.getItem('lz-cookies')) {
+      banner.style.display = 'none';
+      return;
+    }
+    // Show the banner
+    banner.style.display = 'flex';
+
+    function dismiss(choice) {
       localStorage.setItem('lz-cookies', choice);
-      banner.hidden = true;
-    };
-    document.getElementById('cookie-accept')?.addEventListener('click', function () { close('accepted'); });
-    document.getElementById('cookie-essential')?.addEventListener('click', function () { close('essential'); });
+      banner.style.display = 'none';
+    }
+
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+      dismiss('accepted');
+    });
+    document.getElementById('cookie-essential').addEventListener('click', function () {
+      dismiss('essential');
+    });
   })();
 </script>
 
 <style>
   .cookie {
+    display: none; /* shown via JS only */
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -44,14 +56,13 @@
     z-index: 9999;
     max-width: 560px;
     margin: 0 auto;
+    flex-direction: column;
+    gap: 16px;
     background: var(--ink);
     color: var(--cream);
     border-radius: var(--r-lg);
     padding: 22px 26px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
   }
   .cookie-title {
     font-family: var(--font-serif);
