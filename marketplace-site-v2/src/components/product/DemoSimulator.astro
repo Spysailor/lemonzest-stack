@@ -16,8 +16,9 @@ const convJson = JSON.stringify(conversation);
       Cliquez pour dérouler une session réelle. Données fictives.
     </p>
 
-    <!-- data-conversation stocke le JSON dans l'HTML — lu par le script sans define:vars -->
-    <div class="demo-layout" id="demo-root" data-conversation={convJson}>
+    <!-- JSON embarqué dans un script tag : pas d'encodage HTML, lecture fiable -->
+    <script type="application/json" id="demo-conv" set:html={convJson}></script>
+    <div class="demo-layout" id="demo-root">
       <!-- Fenêtre Claude simulée -->
       <div class="demo-window" id="demo-window">
         <div class="demo-titlebar">
@@ -70,16 +71,19 @@ const convJson = JSON.stringify(conversation);
 </section>
 
 <script is:inline>
-(function () {
-  var root = document.getElementById('demo-root');
-  var conv = JSON.parse(root.dataset.conversation);
-  var step = -1;
+document.addEventListener('DOMContentLoaded', function () {
+  var dataEl = document.getElementById('demo-conv');
+  if (!dataEl) return;
+  var conv;
+  try { conv = JSON.parse(dataEl.textContent); } catch(e) { return; }
 
+  var step = -1;
   var messagesEl = document.getElementById('demo-messages');
   var placeholder = document.getElementById('demo-placeholder');
   var nextBtn = document.getElementById('demo-next');
   var resetBtn = document.getElementById('demo-reset');
   var dots = document.querySelectorAll('.demo-dot');
+  if (!nextBtn || !resetBtn || !messagesEl) return;
 
   function escapeHtml(s) {
     return s
@@ -145,7 +149,7 @@ const convJson = JSON.stringify(conversation);
 
   nextBtn.addEventListener('click', advance);
   resetBtn.addEventListener('click', reset);
-})();
+});
 </script>
 
 <style>
