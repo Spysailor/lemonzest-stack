@@ -54,8 +54,31 @@ const footerCats = CATEGORIES.slice(0, 6);
 
   <div class="footer-bottom">
     <span>© {year} Lemon Zest Digital — Tous droits réservés</span>
+    <span class="footer-legal-mini">
+      <a href="/mentions-legales">Mentions légales</a>
+      <a href="/cgv">CGV</a>
+      <a href="/confidentialite">Confidentialité</a>
+    </span>
     <span class="mono-sm" style="color:#8a8075;">
-      Fait avec <span style="color: var(--lemon);">●</span> à Paris
+      Fait avec <span style="color: var(--lemon);">●</span> à Maurice 🇲🇺
     </span>
   </div>
 </footer>
+
+<style>
+  .footer-legal-mini {
+    display: inline-flex;
+    gap: 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #8a8075;
+  }
+  .footer-legal-mini a {
+    color: #8a8075;
+    text-decoration: none;
+  }
+  .footer-legal-mini a:hover { color: var(--cream); }
+  @media (max-width: 720px) {
+    .footer-legal-mini { flex-wrap: wrap; gap: 10px 14px; }
+  }
+</style>

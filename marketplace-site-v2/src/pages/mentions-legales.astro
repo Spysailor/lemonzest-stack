@@ -1,0 +1,80 @@
+---
+import Base from '@/layouts/Base.astro';
+import LegalSection from '@/components/LegalSection.astro';
+---
+
+<Base
+  title="Mentions légales — Lemon Zest Digital"
+  description="Mentions légales du site marketplace.lemonzestdigital.com — éditeur, hébergeur, propriété intellectuelle, médiation."
+  noindex={false}
+>
+  <section class="legal-page">
+    <div class="container legal-container">
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Légal</span>
+      <h1>Mentions <span style="font-style: italic; color: var(--ink-2);">légales.</span></h1>
+
+      <LegalSection title="Éditeur du site">
+        <p><b>Dénomination sociale :</b> Lemon Zest Digital</p>
+        <p><b>Forme juridique :</b> <!-- TODO: Jean-Michel doit compléter : SAS / SARL / Auto-entrepreneur / Société mauricienne --></p>
+        <p><b>Siège social :</b> <!-- TODO: Jean-Michel doit compléter : adresse complète à Maurice --></p>
+        <p><b>Numéro d'immatriculation :</b> <!-- TODO: Jean-Michel doit compléter : BRN / numéro registre Maurice --></p>
+        <p><b>Directeur de la publication :</b> Jean-Michel <!-- TODO: nom de famille --></p>
+        <p><b>Email :</b> <a href="mailto:contact@lemonzestdigital.com">contact@lemonzestdigital.com</a></p>
+        <p><b>Site web :</b> <a href="https://marketplace.lemonzestdigital.com">marketplace.lemonzestdigital.com</a></p>
+      </LegalSection>
+
+      <LegalSection title="Hébergement">
+        <p><b>Hébergeur :</b> Hostinger International Ltd.</p>
+        <p><b>Adresse :</b> 61 Lordou Vironos Street, 6023 Larnaca, Chypre</p>
+        <p><b>Site web :</b> <a href="https://www.hostinger.com">hostinger.com</a></p>
+      </LegalSection>
+
+      <LegalSection title="Propriété intellectuelle">
+        <p>
+          L'ensemble du contenu de ce site (textes, images, code, skills, templates, documentation)
+          est protégé par le droit d'auteur. Toute reproduction, représentation ou diffusion, totale
+          ou partielle, sans autorisation écrite préalable de Lemon Zest Digital est interdite.
+        </p>
+        <p>
+          Les skills vendus sur cette marketplace sont des œuvres originales de Lemon Zest Digital,
+          protégées par les articles L.111-1 et suivants du Code de la propriété intellectuelle français.
+          L'acheteur acquiert une licence d'utilisation (voir <a href="/cgv">CGV, Article 6</a>)
+          et non la propriété des fichiers.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Limitation de responsabilité">
+        <p>
+          Les skills IA vendus sur cette marketplace sont des outils d'aide à la décision et
+          d'assistance à la productivité. Lemon Zest Digital ne saurait être tenu responsable des
+          décisions prises par l'utilisateur sur la base des résultats produits par ces outils.
+          L'utilisateur reste seul responsable de l'utilisation qu'il fait des outputs générés,
+          de leur vérification factuelle, et de leur conformité à la réglementation applicable
+          à son activité.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Médiation de la consommation">
+        <p>
+          Conformément à l'article L.616-1 du Code de la consommation, en cas de litige non résolu
+          à l'amiable, vous pouvez recourir gratuitement au service de médiation compétent.
+          <!-- TODO: insérer le nom et les coordonnées du médiateur agréé retenu par Lemon Zest Digital -->
+        </p>
+        <p>
+          Pour les consommateurs résidant dans l'Union européenne, la plateforme de règlement en
+          ligne des litiges est disponible à l'adresse :
+          <a href="https://ec.europa.eu/consumers/odr/">ec.europa.eu/consumers/odr</a>.
+        </p>
+      </LegalSection>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-page { padding: 72px 0 96px; }
+  .legal-container { max-width: 820px; }
+  h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    margin: 20px 0 40px;
+  }
+</style>

@@ -22,6 +22,11 @@ const badgeClass =
 const firstCat = product.categories[0] ?? null;
 const firstCatSlug = firstCat ? categorySlug(firstCat) : null;
 const shownBullets = product.bullets.slice(0, compact ? 2 : 3);
+
+// Dark theme for "Agent" (Pack) type to visually distinguish more complex products.
+const isAgent = product.type === 'Pack';
+const typeEmoji = isAgent ? '⚡' : '✦';
+const typeLabel = isAgent ? 'Agent' : 'Skill';
 ---
 
 <article class="card card--product clickable">
@@ -29,8 +34,10 @@ const shownBullets = product.bullets.slice(0, compact ? 2 : 3);
     {product.coverUrl ? (
       <img src={product.coverUrl} alt="" class="card-cover" loading="lazy" />
     ) : (
-      <div class="placeholder card-cover" aria-hidden="true">
-        Visuel — {product.name}
+      <div class={`card-cover card-cover--generated ${isAgent ? 'is-agent' : 'is-skill'}`} aria-hidden="true">
+        <div class="cover-lemon" aria-hidden="true"></div>
+        <span class="cover-type-badge">{typeEmoji} {typeLabel}</span>
+        <div class="cover-name">{product.name}</div>
       </div>
     )}
     {(badgeClass || !isLive) && (
@@ -93,6 +100,57 @@ const shownBullets = product.bullets.slice(0, compact ? 2 : 3);
     aspect-ratio: 16 / 10;
     object-fit: cover;
   }
+  .card-cover--generated {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+  .card-cover--generated.is-skill {
+    background: linear-gradient(135deg, var(--lemon-pale) 0%, var(--lemon-soft) 100%);
+  }
+  .card-cover--generated.is-agent {
+    background: linear-gradient(135deg, #1A1613 0%, #2D2520 100%);
+  }
+  .cover-lemon {
+    position: absolute;
+    right: -16px;
+    bottom: -16px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFEB8A, var(--lemon) 55%, var(--lemon-deep));
+    opacity: 0.65;
+    transform: rotate(12deg);
+    box-shadow: inset 0 -16px 28px rgba(200, 140, 0, 0.25);
+  }
+  .is-agent .cover-lemon { opacity: 0.5; }
+  .cover-type-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+  .cover-name {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.15;
+    max-width: 88%;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .is-agent .cover-name { color: var(--cream); }
   .card-badges {
     position: absolute;
     top: 12px; left: 12px;

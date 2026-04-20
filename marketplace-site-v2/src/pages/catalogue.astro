@@ -33,14 +33,20 @@ for (const p of products) {
 
       <div class="chips-row">
         <CategoryChip href="/catalogue" label="Tous" active={true} count={products.length} />
-        {CATEGORIES.map((c) => (
-          <CategoryChip
-            href={`/metiers/${c.slug}`}
-            emoji={c.emoji}
-            label={c.label}
-            count={countByCat.get(c.label) ?? 0}
-          />
-        ))}
+        {CATEGORIES.map((c) => {
+          const count = countByCat.get(c.label) ?? 0;
+          const isEmpty = count === 0;
+          return (
+            <CategoryChip
+              href={`/metiers/${c.slug}`}
+              emoji={c.emoji}
+              label={c.label}
+              count={count}
+              disabled={isEmpty}
+              badge={isEmpty ? 'Bientôt' : undefined}
+            />
+          );
+        })}
       </div>
     </div>
   </section>

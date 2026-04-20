@@ -5,18 +5,44 @@ interface Props {
   emoji?: string;
   active?: boolean;
   count?: number;
+  disabled?: boolean;
+  badge?: string;
 }
-const { href, label, emoji, active = false, count } = Astro.props;
+const { href, label, emoji, active = false, count, disabled = false, badge } = Astro.props;
+const Tag = disabled ? 'span' : 'a';
 ---
 
-<a href={href} class="chip" aria-pressed={active ? 'true' : 'false'}>
+<Tag
+  {...(!disabled ? { href } : {})}
+  class:list={['chip', { 'chip-disabled': disabled, 'chip-active': active }]}
+  aria-pressed={active ? 'true' : 'false'}
+  aria-disabled={disabled ? 'true' : undefined}
+>
   {emoji && <span aria-hidden="true">{emoji}</span>}
   <span>{label}</span>
-  {typeof count === 'number' && (
-    <span class="mono-sm" style="opacity:0.7;">({count})</span>
+  {badge && <span class="chip-badge">{badge}</span>}
+  {typeof count === 'number' && !badge && (
+    <span class="mono-sm chip-count">({count})</span>
   )}
-</a>
+</Tag>
 
 <style>
-  .chip { text-decoration: none; }
+  .chip { text-decoration: none; cursor: pointer; }
+  .chip-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: var(--ink-muted);
+  }
+  .chip-count { opacity: 0.7; }
+  .chip-badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--lemon-pale);
+    color: #8a6b00;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-left: 4px;
+  }
 </style>

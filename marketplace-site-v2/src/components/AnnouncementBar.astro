@@ -1,0 +1,78 @@
+---
+// Top-of-page early-bird banner. Dismissable via client-side JS (localStorage).
+// The bar is rendered server-side; the dismiss state is rehydrated on the client
+// before paint to avoid a flash of visible banner once dismissed.
+---
+
+<div id="announcement-bar" class="announce" hidden>
+  <span class="announce-emoji" aria-hidden="true">🔥</span>
+  <span class="announce-highlight">Early Bird -50 %</span>
+  <span class="announce-text">Offre valable jusqu'au 30 avril 2026</span>
+  <a href="/catalogue" class="announce-cta">En profiter →</a>
+  <button type="button" id="announcement-close" class="announce-close" aria-label="Fermer l'annonce">×</button>
+</div>
+
+<script is:inline>
+  (function () {
+    const bar = document.getElementById('announcement-bar');
+    if (!bar) return;
+    if (localStorage.getItem('lz-announce-dismissed') === '1') return;
+    bar.hidden = false;
+    document.getElementById('announcement-close')?.addEventListener('click', function () {
+      localStorage.setItem('lz-announce-dismissed', '1');
+      bar.hidden = true;
+    });
+  })();
+</script>
+
+<style>
+  .announce {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 56px 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    position: relative;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .announce-emoji { font-size: 15px; }
+  .announce-highlight {
+    color: var(--lemon);
+    font-weight: 600;
+  }
+  .announce-text { color: rgba(255, 248, 231, 0.75); }
+  .announce-cta {
+    background: var(--lemon);
+    color: var(--ink);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s;
+  }
+  .announce-cta:hover { transform: translateY(-1px); color: var(--ink); }
+  .announce-close {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    color: rgba(255, 248, 231, 0.55);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .announce-close:hover { color: var(--cream); }
+  @media (max-width: 640px) {
+    .announce { font-size: 12.5px; gap: 10px; padding: 9px 44px 9px 16px; }
+    .announce-text { display: none; }
+  }
+</style>

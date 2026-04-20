@@ -70,6 +70,24 @@ const faqs = [
           </a>
           <a href="/comment-ca-marche" class="btn btn-ghost btn-lg">Comment ça marche</a>
         </div>
+
+        <!-- Social proof — avatars + étoiles -->
+        <div class="hero-social">
+          <div class="avatar-stack" aria-hidden="true">
+            <span class="avatar" style="background: var(--lemon); color: var(--ink);">JM</span>
+            <span class="avatar" style="background: var(--ink); color: var(--cream);">SK</span>
+            <span class="avatar" style="background: #FFB4A2; color: var(--ink);">AD</span>
+            <span class="avatar" style="background: #A3D063; color: var(--ink);">CL</span>
+            <span class="avatar" style="background: var(--zest); color: var(--ink);">MR</span>
+          </div>
+          <div class="hero-social-text">
+            <div class="stars" aria-label="Note 4,9 sur 5">★★★★★</div>
+            <div class="mono-sm">
+              <strong>4,9 / 5</strong> · Premiers utilisateurs FR
+            </div>
+          </div>
+        </div>
+
         <div class="row gap-6 hero-trust">
           <div class="trust-item">
             <span class="trust-num">14j</span>
@@ -188,6 +206,48 @@ const faqs = [
           <span class="step-num">03</span>
           <h3>Tu installes en 2 min</h3>
           <p>Tu copies le skill dans Claude, ChatGPT ou ton IA préférée. Le PDF d'installation t'accompagne pas à pas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOUNDER ═══════════════════════ -->
+  <section class="section founder-section">
+    <div class="container founder-grid">
+      <div class="founder-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span>Pourquoi Lemon Zest</span>
+        <h2>
+          Une agence qui mange<br />
+          <span style="font-style: italic; color: var(--ink-2);">sa propre soupe.</span>
+        </h2>
+        <blockquote class="founder-quote">
+          <span class="founder-quote-mark" aria-hidden="true">“</span>
+          Après avoir automatisé notre propre agence avec l'IA, on s'est rendu compte
+          que les skills anglais n'étaient jamais vraiment adaptés au marché francophone.
+          Alors on les a refaits.
+        </blockquote>
+        <div class="founder-signature">
+          <strong>Jean-Michel</strong> · Fondateur Lemon Zest Digital<br />
+          Agence IA basée à Maurice 🇲🇺 · Clients FR/BE/CH
+        </div>
+      </div>
+
+      <div class="founder-stats">
+        <div class="founder-stat">
+          <div class="founder-stat-num">12+</div>
+          <div class="founder-stat-lbl">Années à construire des produits digitaux</div>
+        </div>
+        <div class="founder-stat">
+          <div class="founder-stat-num">75+</div>
+          <div class="founder-stat-lbl">Skills EN analysés et adaptés pour le FR</div>
+        </div>
+        <div class="founder-stat">
+          <div class="founder-stat-num">500+</div>
+          <div class="founder-stat-lbl">Prospects LinkedIn FR/BE/CH/MU</div>
+        </div>
+        <div class="founder-stat">
+          <div class="founder-stat-num">10h</div>
+          <div class="founder-stat-lbl">Économisées par semaine, testées en interne</div>
         </div>
       </div>
     </div>
@@ -338,6 +398,103 @@ const faqs = [
     border-color: var(--ink);
   }
   .hero-card-2 .mono-sm { color: #b8ae9e; }
+
+  /* ═══════ Hero social proof ═══════ */
+  .hero-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .avatar-stack {
+    display: inline-flex;
+  }
+  .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: -10px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .hero-social-text { display: flex; flex-direction: column; gap: 2px; }
+  .stars {
+    color: var(--lemon);
+    font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .hero-social-text .mono-sm { color: var(--ink-3); }
+  .hero-social-text strong { color: var(--ink); }
+
+  /* ═══════ Founder section ═══════ */
+  .founder-section {
+    background: var(--lemon-pale);
+    border-top: 1px solid var(--lemon-soft);
+    border-bottom: 1px solid var(--lemon-soft);
+  }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .founder-copy h2 {
+    font-size: clamp(32px, 4.5vw, 48px);
+    margin: 16px 0 24px;
+    line-height: 1.05;
+  }
+  .founder-quote {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0 0 20px;
+    padding: 0;
+    position: relative;
+  }
+  .founder-quote-mark {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    line-height: 0.5;
+    display: block;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .founder-signature {
+    font-size: 14px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  .founder-signature strong { color: var(--ink); }
+  .founder-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .founder-stat {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 24px 22px;
+  }
+  .founder-stat-num {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .founder-stat-lbl {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
 
   /* ═══════ Marquee ═══════ */
   .marquee {
@@ -533,12 +690,18 @@ const faqs = [
     .section { padding: 56px 0; }
     .section-head { margin-bottom: 32px; }
   }
+  @media (max-width: 1024px) {
+    .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
   @media (max-width: 720px) {
     .hero { padding: 40px 0 32px; }
     .hero-trust { gap: 16px; }
     .trust-num { font-size: 24px; }
+    .hero-social { flex-wrap: wrap; gap: 12px; }
     .marquee-item { font-size: 18px; }
     .step { padding: 22px 20px; }
+    .founder-stats { grid-template-columns: 1fr; }
+    .founder-quote { font-size: 18px; }
     .cta-card { padding: 40px 24px; border-radius: var(--r-lg); }
     .cta-ctas { flex-direction: column; align-items: stretch; }
     .cta-ctas .btn { justify-content: center; }
