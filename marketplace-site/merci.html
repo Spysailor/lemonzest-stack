@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Merci — Lemon Zest Digital</title>
+<meta name="description" content="Votre demande est bien arrivée. Réponse personnelle sous 48h." />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --lemon: #FFD91C;
+    --lemon-deep: #F5C400;
+    --lemon-soft: #FFF1A8;
+    --cream: #FFF8E7;
+    --mint: #6EE7B7;
+    --mint-deep: #10B981;
+    --ink: #1A1915;
+    --slate: #5C5A52;
+    --line: rgba(15, 14, 12, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
+
+  /* NAV minimal */
+  nav {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 248, 231, 0.82);
+    backdrop-filter: blur(20px);
+  }
+  .nav-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1240px; margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px; font-style: italic; letter-spacing: -0.02em;
+    color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-dot {
+    width: 32px; height: 32px; background: var(--lemon);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-style: normal; font-size: 18px;
+    box-shadow: 0 4px 14px rgba(245, 196, 0, 0.35);
+  }
+  .nav-back {
+    color: var(--ink); text-decoration: none;
+    font-size: 14.5px; font-weight: 500;
+  }
+  .nav-back:hover { opacity: 0.6; }
+
+  /* PAGE MERCI */
+  .merci {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .merci::before {
+    content: "";
+    position: absolute;
+    top: -200px; right: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--lemon) 0%, transparent 70%);
+    opacity: 0.25;
+    pointer-events: none;
+  }
+  .merci::after {
+    content: "";
+    position: absolute;
+    bottom: -200px; left: -150px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--mint) 0%, transparent 70%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .merci-card {
+    background: white;
+    border-radius: 28px;
+    padding: 64px 56px;
+    text-align: center;
+    box-shadow: 0 24px 70px -25px rgba(15, 14, 12, 0.18);
+    border: 1px solid var(--line);
+    position: relative; z-index: 2;
+    max-width: 600px; margin: 0 auto;
+    animation: pop 0.5s ease-out both;
+  }
+  @media (max-width: 600px) { .merci-card { padding: 44px 28px; } }
+
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .merci-emoji {
+    font-size: 56px;
+    margin-bottom: 24px;
+    display: inline-block;
+    animation: bounce 1.2s ease-out 0.3s both;
+  }
+  @keyframes bounce {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .merci-card h1 {
+    font-family: 'Geist', sans-serif;
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .merci-card h1 .serif {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400; font-style: italic;
+  }
+  .merci-card h1 .name {
+    background: var(--lemon);
+    padding: 0 10px 4px;
+    box-shadow: 3px 4px 0 var(--ink);
+    display: inline-block;
+    transform: rotate(-1deg);
+  }
+
+  .merci-text {
+    font-size: 17px;
+    color: var(--slate);
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .merci-text strong { color: var(--ink); }
+
+  .merci-actions {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--cream);
+    padding: 14px 24px; border-radius: 100px;
+    text-decoration: none; font-weight: 600; font-size: 14.5px;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 0 var(--lemon-deep);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--lemon-deep);
+  }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    padding: 14px 24px; border-radius: 100px;
+    text-decoration: none; font-weight: 600; font-size: 14.5px;
+    border: 1.5px solid var(--ink);
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--cream); }
+
+  .merci-meta {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--slate);
+  }
+  .merci-meta a { color: var(--ink); text-decoration: none; font-weight: 600; }
+  .merci-meta a:hover { text-decoration: underline; }
+
+  footer {
+    padding: 24px 0;
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 13px; color: var(--slate);
+  }
+  footer a { color: var(--slate); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-dot">🍋</span>
+      <em>Lemon Zest</em>
+    </a>
+    <a href="/" class="nav-back">← Retour à l'accueil</a>
+  </div>
+</nav>
+
+<section class="merci">
+  <div class="wrap">
+    <div class="merci-card">
+      <div class="merci-emoji">🍋</div>
+
+      <h1>
+        Merci <span class="name" id="prenom-display">à vous</span>,<br>
+        votre demande est <span class="serif">arrivée</span>.
+      </h1>
+
+      <p class="merci-text">
+        Je reviens vers vous <strong>sous 48 h</strong> avec une proposition adaptée
+        à votre contexte — ou un honnête « ce n'est pas pour vous ».<br><br>
+        Si c'est urgent, vous pouvez aussi réserver un créneau direct dans mon agenda.
+      </p>
+
+      <div class="merci-actions">
+        <!-- TODO: remplacer href="#" par l'URL Cal.com de Jean-Michel -->
+        <a href="#" class="btn-primary">📅 Réserver un créneau direct</a>
+        <a href="/" class="btn-secondary">Retour à l'accueil</a>
+      </div>
+
+      <div class="merci-meta">
+        Une question urgente ? Écrivez à <a href="mailto:hello@lemonzestdigital.com">hello@lemonzestdigital.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Lemon Zest Digital · Fait à Maurice 🇲🇺
+</footer>
+
+<script>
+  // Personnalise le "Merci [Prénom]" via paramètre URL ?p=Jean
+  const params = new URLSearchParams(window.location.search);
+  const prenom = params.get('p');
+  if (prenom) {
+    const safe = prenom.replace(/[<>"'&]/g, '').trim().slice(0, 30);
+    if (safe) {
+      const display = document.getElementById('prenom-display');
+      if (display) display.textContent = safe;
+    }
+  }
+</script>
+
+</body>
+</html>

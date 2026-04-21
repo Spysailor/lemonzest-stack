@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Lemon Zest Digital</title>
+<meta name="description" content="Parlons de votre projet IA sur-mesure. 15 minutes pour comprendre votre besoin, sans engagement." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --lemon: #FFD91C;
+    --lemon-deep: #F5C400;
+    --lemon-soft: #FFF1A8;
+    --cream: #FFF8E7;
+    --mint: #6EE7B7;
+    --mint-deep: #10B981;
+    --ink: #1A1915;
+    --slate: #5C5A52;
+    --line: rgba(15, 14, 12, 0.08);
+    --line-strong: rgba(15, 14, 12, 0.14);
+    --error: #D14848;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+  /* NAV (identique à index) */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 248, 231, 0.82);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 28px; max-width: 1240px; margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px; font-style: italic; letter-spacing: -0.02em;
+    color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-dot {
+    width: 32px; height: 32px; background: var(--lemon);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-style: normal; font-size: 18px;
+    box-shadow: 0 4px 14px rgba(245, 196, 0, 0.35);
+  }
+  .nav-back {
+    color: var(--ink); text-decoration: none;
+    font-size: 14.5px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-back:hover { opacity: 0.6; }
+
+  /* PAGE CONTACT */
+  .contact-page {
+    padding: 72px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-page::before {
+    content: "";
+    position: absolute;
+    top: -150px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--lemon) 0%, transparent 70%);
+    opacity: 0.25;
+    pointer-events: none;
+  }
+  .contact-page::after {
+    content: "";
+    position: absolute;
+    bottom: -200px; left: -150px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--mint) 0%, transparent 70%);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    position: relative; z-index: 2;
+  }
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  /* INTRO */
+  .contact-intro h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .contact-intro h1 .serif {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400; font-style: italic;
+  }
+  .contact-intro h1 .highlight {
+    background: var(--lemon);
+    padding: 2px 14px 6px;
+    box-shadow: 4px 6px 0 var(--ink);
+    display: inline-block;
+    transform: rotate(-1deg);
+  }
+  .contact-lead {
+    font-size: 17px; color: var(--slate);
+    line-height: 1.6; margin-bottom: 36px;
+    max-width: 380px;
+  }
+
+  .contact-promises {
+    list-style: none;
+    margin-bottom: 36px;
+  }
+  .contact-promises li {
+    padding: 10px 0;
+    font-size: 14.5px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .check {
+    color: var(--mint-deep);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .contact-alt {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .contact-alt-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--slate);
+    margin-bottom: 12px;
+  }
+  .contact-alt p { font-size: 14.5px; color: var(--ink); margin-bottom: 16px; line-height: 1.5; }
+  .contact-alt-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px;
+    background: var(--lemon); color: var(--ink);
+    border-radius: 100px;
+    text-decoration: none; font-weight: 600; font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .contact-alt-btn:hover { transform: translateY(-2px); }
+
+  /* FORM CARD */
+  .form-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px 36px;
+    border: 1px solid var(--line);
+    box-shadow: 0 20px 60px -25px rgba(15, 14, 12, 0.18);
+  }
+  @media (max-width: 600px) { .form-card { padding: 28px 22px; } }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+  .form-field { margin-bottom: 18px; }
+
+  .form-field label,
+  .form-row label {
+    display: block;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .form-field label .req,
+  .form-row label .req { color: var(--error); margin-left: 2px; }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea,
+  .form-row input,
+  .form-row select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 10px;
+    font-family: inherit; font-size: 14.5px;
+    background: var(--cream);
+    color: var(--ink);
+    transition: border-color 0.2s;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus,
+  .form-row input:focus,
+  .form-row select:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: white;
+  }
+  .form-field textarea {
+    resize: vertical;
+    min-height: 110px;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  .char-count {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--slate);
+    margin-top: 4px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .form-rgpd {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin: 24px 0;
+    font-size: 13px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .form-rgpd input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--ink);
+    width: 16px; height: 16px;
+  }
+  .form-rgpd a { color: var(--ink); text-decoration: underline; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--ink); color: var(--cream);
+    border: none; border-radius: 100px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 0 var(--lemon-deep);
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--lemon-deep);
+  }
+
+  .form-note {
+    font-size: 12.5px; color: var(--slate);
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* FOOTER (light) */
+  footer {
+    padding: 32px 0;
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 13px; color: var(--slate);
+  }
+  footer a { color: var(--slate); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-dot">🍋</span>
+      <em>Lemon Zest</em>
+    </a>
+    <a href="/" class="nav-back">← Retour à l'accueil</a>
+  </div>
+</nav>
+
+<!-- PAGE CONTACT -->
+<section class="contact-page">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- INTRO -->
+      <div class="contact-intro">
+        <h1>
+          Parlons de votre <span class="highlight">projet</span>.
+        </h1>
+        <p class="contact-lead">
+          Quelques questions pour comprendre votre contexte. Je reviens vers vous
+          sous 48 h avec une proposition adaptée — ou un honnête « ce n'est pas pour vous ».
+        </p>
+
+        <ul class="contact-promises">
+          <li><span class="check">✓</span> Réponse personnelle sous 48 h</li>
+          <li><span class="check">✓</span> Sans engagement, sans relance commerciale</li>
+          <li><span class="check">✓</span> Données stockées en Europe, jamais revendues</li>
+        </ul>
+
+        <div class="contact-alt">
+          <div class="contact-alt-label">Ou plus rapide</div>
+          <p>Réservez directement un créneau de 15 minutes dans mon agenda.</p>
+          <!-- TODO: remplacer href="#" par l'URL Cal.com de Jean-Michel une fois le compte créé -->
+          <a href="#" class="contact-alt-btn">📅 Réserver un créneau →</a>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <!-- TODO: Formspree endpoint — remplacer action="" par https://formspree.io/f/XXXXXXXX
+           Ajouter aussi <input type="hidden" name="_next" value="https://marketplace.lemonzestdigital.com/merci.html?p=PRENOM" />
+           pour la redirection vers la page merci avec le prénom en paramètre URL -->
+      <form class="form-card" action="" method="POST" id="contact-form">
+
+        <input type="hidden" name="source" value="contact-form" />
+        <input type="hidden" name="_subject" value="Nouvelle demande de contact LZD" />
+
+        <div class="form-row">
+          <div>
+            <label for="prenom">Prénom <span class="req">*</span></label>
+            <input type="text" id="prenom" name="prenom" required autocomplete="given-name" />
+          </div>
+          <div>
+            <label for="nom">Nom <span class="req">*</span></label>
+            <input type="text" id="nom" name="nom" required autocomplete="family-name" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email professionnel <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="vous@entreprise.com" />
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="societe">Société <span class="req">*</span></label>
+            <input type="text" id="societe" name="societe" required autocomplete="organization" />
+          </div>
+          <div>
+            <label for="site">Site web</label>
+            <input type="url" id="site" name="site" placeholder="https://..." />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="secteur">Secteur d'activité <span class="req">*</span></label>
+            <select id="secteur" name="secteur" required>
+              <option value="">— Choisir —</option>
+              <option value="agences">Agence marketing</option>
+              <option value="immobilier">Immobilier</option>
+              <option value="juridique">Juridique / EC</option>
+              <option value="coachs">Coach / Formateur</option>
+              <option value="restauration">Restauration</option>
+              <option value="ecommerce">E-commerce</option>
+              <option value="rh">RH / Recrutement</option>
+              <option value="artisans">Artisan / TPE</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div>
+            <label for="taille">Taille équipe <span class="req">*</span></label>
+            <select id="taille" name="taille" required>
+              <option value="">— Choisir —</option>
+              <option value="solo">Solo / Freelance</option>
+              <option value="2-5">2 à 5 personnes</option>
+              <option value="6-20">6 à 20 personnes</option>
+              <option value="20+">Plus de 20 personnes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="besoin">Votre besoin en quelques mots <span class="req">*</span></label>
+          <textarea id="besoin" name="besoin" required maxlength="500" placeholder="Décrivez en quelques phrases ce que vous aimeriez automatiser ou améliorer."></textarea>
+          <span class="char-count"><span id="char-count">0</span> / 500</span>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="budget">Budget approximatif <span class="req">*</span></label>
+            <select id="budget" name="budget" required>
+              <option value="">— Choisir —</option>
+              <option value="<1000">Moins de 1 000 €</option>
+              <option value="1000-3000">1 000 à 3 000 €</option>
+              <option value="3000-10000">3 000 à 10 000 €</option>
+              <option value=">10000">Plus de 10 000 €</option>
+              <option value="inconnu">Je ne sais pas encore</option>
+            </select>
+          </div>
+          <div>
+            <label for="delai">Délai souhaité <span class="req">*</span></label>
+            <select id="delai" name="delai" required>
+              <option value="">— Choisir —</option>
+              <option value="urgent">Urgent (cette semaine)</option>
+              <option value="<1mois">Sous 1 mois</option>
+              <option value="1-3mois">1 à 3 mois</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="form-rgpd">
+          <input type="checkbox" name="rgpd" required />
+          <span>
+            J'accepte que Lemon Zest Digital traite mes données pour répondre à ma demande.
+            Données stockées en Europe, supprimées à votre demande.
+          </span>
+        </label>
+
+        <button type="submit" class="submit-btn">Envoyer ma demande →</button>
+
+        <p class="form-note">
+          Réponse personnelle sous 48 h. Pas de relance automatisée.
+        </p>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Lemon Zest Digital · Fait à Maurice 🇲🇺 ·
+  <a href="mailto:hello@lemonzestdigital.com">hello@lemonzestdigital.com</a>
+</footer>
+
+<script>
+  // Compteur caractères textarea
+  const textarea = document.getElementById('besoin');
+  const counter = document.getElementById('char-count');
+  if (textarea && counter) {
+    textarea.addEventListener('input', () => {
+      counter.textContent = textarea.value.length;
+    });
+  }
+
+  // Pré-remplir le secteur si paramètre URL ?secteur=agences
+  const params = new URLSearchParams(window.location.search);
+  const secteurParam = params.get('secteur');
+  if (secteurParam) {
+    const secteurSelect = document.getElementById('secteur');
+    if (secteurSelect) {
+      const opt = Array.from(secteurSelect.options).find(o => o.value === secteurParam);
+      if (opt) secteurSelect.value = secteurParam;
+    }
+  }
+
+  // Préparer redirect /merci?p=PRENOM (utilisé par Formspree _next)
+  // Cette logique sera activée quand Formspree sera configuré.
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', () => {
+      const prenom = document.getElementById('prenom').value.trim();
+      const next = form.querySelector('input[name="_next"]');
+      if (next && prenom) {
+        next.value = next.value.replace('PRENOM', encodeURIComponent(prenom));
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
