@@ -239,31 +239,31 @@
     display: block;
   }
   .wave-primary {
-    animation: waveY1 8s ease-in-out infinite alternate;
+    animation: waveY1 5.5s ease-in-out infinite alternate;
     will-change: transform;
     transform-origin: center;
   }
   .wave-secondary {
-    animation: waveY2 6s ease-in-out infinite alternate;
+    animation: waveY2 4s ease-in-out infinite alternate;
     will-change: transform;
     transform-origin: center;
   }
   .wave-accent {
-    animation: waveY3 4s ease-in-out infinite alternate;
+    animation: waveY3 2.8s ease-in-out infinite alternate;
     will-change: transform;
     transform-origin: center;
   }
   @keyframes waveY1 {
     from { transform: translateY(0); }
-    to   { transform: translateY(-15px); }
+    to   { transform: translateY(-22px); }
   }
   @keyframes waveY2 {
     from { transform: translateY(0); }
-    to   { transform: translateY(-10px); }
+    to   { transform: translateY(-16px); }
   }
   @keyframes waveY3 {
     from { transform: translateY(0); }
-    to   { transform: translateY(-5px); }
+    to   { transform: translateY(-10px); }
   }
 
   .hero-badge {
@@ -1648,7 +1648,8 @@
       var SVG_NS = 'http://www.w3.org/2000/svg';
 
       function generatePath(index, position, type) {
-        var baseAmplitude = type === 'primary' ? 150 : type === 'secondary' ? 100 : 60;
+        // Amplitudes boostées ×1.35 pour un effet tube plus large
+        var baseAmplitude = type === 'primary' ? 200 : type === 'secondary' ? 135 : 80;
         var segments      = type === 'primary' ? 10  : type === 'secondary' ? 8   : 6;
         var phase = index * 0.2;
         var startX = 2400, startY = 800;
@@ -1721,9 +1722,10 @@
         var grp = makeSvgEl('g', { 'class': g.cls });
         for (var i = 0; i < g.count; i++) {
           var opacity, width;
-          if (g.type === 'primary')        { opacity = 0.15 + i * 0.02;  width = 4 + i * 0.3;  }
-          else if (g.type === 'secondary') { opacity = 0.12 + i * 0.015; width = 3 + i * 0.25; }
-          else                             { opacity = 0.08 + i * 0.10;  width = 2 + i * 0.2;  }
+          // Largeurs boostées ×2 pour effet tube
+          if (g.type === 'primary')        { opacity = 0.15 + i * 0.02;  width = 8 + i * 0.5;  }
+          else if (g.type === 'secondary') { opacity = 0.12 + i * 0.015; width = 6 + i * 0.4;  }
+          else                             { opacity = 0.08 + i * 0.10;  width = 4 + i * 0.3;  }
 
           var path = makeSvgEl('path', {
             d: generatePath(i, 1, g.type),
