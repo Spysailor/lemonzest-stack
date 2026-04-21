@@ -152,28 +152,68 @@
     position: relative;
     overflow: hidden;
   }
-  .hero::before {
-    content: "";
+  /* ===== MESH GRADIENT LAVA (Option B) ===== */
+  .hero-orbs {
     position: absolute;
-    top: -200px; right: -100px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--lemon) 0%, transparent 70%);
-    opacity: 0.35;
+    inset: 0;
     pointer-events: none;
-    animation: breatheLemon 20s ease-in-out infinite;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(42px);
+    mix-blend-mode: multiply;
+    will-change: transform;
     transform-origin: center;
   }
-  .hero::after {
-    content: "";
-    position: absolute;
-    bottom: -300px; left: -200px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, var(--mint) 0%, transparent 70%);
-    opacity: 0.18;
-    pointer-events: none;
-    animation: breatheMint 25s ease-in-out infinite -8s;
-    transform-origin: center;
+  .orb-1 {
+    width: 620px; height: 620px;
+    top: -18%; right: -10%;
+    background: radial-gradient(circle, var(--lemon) 0%, transparent 65%);
+    opacity: 0.55;
+    animation: drift1 18s ease-in-out infinite;
   }
+  .orb-2 {
+    width: 520px; height: 520px;
+    bottom: -22%; left: -14%;
+    background: radial-gradient(circle, var(--mint) 0%, transparent 65%);
+    opacity: 0.32;
+    animation: drift2 22s ease-in-out infinite -7s;
+  }
+  .orb-3 {
+    width: 420px; height: 420px;
+    top: 38%; left: 28%;
+    background: radial-gradient(circle, var(--lemon-soft) 0%, transparent 65%);
+    opacity: 0.42;
+    animation: drift3 25s ease-in-out infinite -12s;
+  }
+  .orb-4 {
+    width: 700px; height: 700px;
+    top: -24%; left: 36%;
+    background: radial-gradient(circle, #FFE88A 0%, transparent 60%);
+    opacity: 0.28;
+    animation: drift4 30s ease-in-out infinite -3s;
+  }
+  @keyframes drift1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(-44px, 62px, 0) scale(1.14); }
+  }
+  @keyframes drift2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(52px, -42px, 0) scale(1.1); }
+  }
+  @keyframes drift3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(72px, -54px, 0) scale(1.18); }
+  }
+  @keyframes drift4 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(-56px, 44px, 0) scale(1.1); }
+  }
+
+  /* Gardé pour les autres sections (why, lite, founder, final-cta) */
   @keyframes breatheLemon {
     0%, 100% { transform: scale(1); opacity: 0.35; }
     50%      { transform: scale(1.08); opacity: 0.42; }
@@ -181,6 +221,31 @@
   @keyframes breatheMint {
     0%, 100% { transform: scale(1); opacity: 0.18; }
     50%      { transform: scale(1.06); opacity: 0.24; }
+  }
+
+  /* ===== CITRON FANTÔME (Option E) ===== */
+  .ghost-lemon {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    width: 500px; height: 500px;
+    transform: translateY(-50%);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(2px);
+    animation: ghostFloat 14s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes ghostFloat {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(-4deg); }
+    50%      { transform: translateY(-54%) scale(1.06) rotate(4deg); }
+  }
+  @media (max-width: 1100px) {
+    .ghost-lemon { right: -140px; width: 420px; height: 420px; opacity: 0.07; }
+  }
+  @media (max-width: 720px) {
+    .ghost-lemon { right: -180px; top: 65%; width: 340px; height: 340px; opacity: 0.06; }
   }
 
   .hero-badge {
@@ -230,10 +295,22 @@
     background: var(--lemon);
     padding: 2px 16px 6px;
     box-shadow: 4px 6px 0 var(--ink);
-    display: inline-block;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
     transform: rotate(-1deg);
     margin: 0 4px;
-    transition: none; /* sticker collé : pas d'animation globale */
+    /* Transition width pour accompagner le cycling word */
+    transition: width 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ===== CYCLING WORD (Option A) ===== */
+  .cycler {
+    display: inline-block;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 240ms ease-out, transform 240ms ease-out;
+    white-space: nowrap;
   }
 
   .hero-sub {
@@ -880,6 +957,10 @@
       transform: none !important;
     }
     .scroll-progress { display: none; }
+    /* Orbes et citron fantôme : figer à position initiale */
+    .orb, .ghost-lemon { animation: none !important; }
+    /* Cycler : rester sur le mot initial */
+    .cycler { opacity: 1 !important; transform: none !important; }
   }
 </style>
 </head>
@@ -914,6 +995,23 @@
 
 <!-- HERO -->
 <section class="hero">
+
+  <!-- Mesh gradient lava (Option B) — 4 orbes qui dérivent en boucle -->
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Citron fantôme (Option E) — signature de marque géante -->
+  <svg class="ghost-lemon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <ellipse cx="12" cy="13.2" rx="6.5" ry="8.2" stroke="#0F0E0C" stroke-width="0.6" stroke-linejoin="round"/>
+    <ellipse cx="9.6" cy="11" rx="1.6" ry="1.1" fill="#0F0E0C" opacity="0.18"/>
+    <path d="M12 4 Q 14.5 2.2, 17 3.5" stroke="#10B981" stroke-width="0.6" stroke-linecap="round"/>
+    <path d="M17 3.5 L 16 5.6" stroke="#10B981" stroke-width="0.6" stroke-linecap="round"/>
+  </svg>
+
   <div class="wrap">
     <div class="hero-badge">
       <span class="pulse"></span>
@@ -922,7 +1020,7 @@
 
     <h1 class="hero-title">
       L'IA qui <span class="serif">s'adapte</span><br>
-      à votre <span class="highlight">métier</span>.<br>
+      à votre <span class="highlight"><span class="cycler" data-words="métier,agence,cabinet,atelier,boutique,équipe,studio">métier</span></span>.<br>
       Pas l'inverse.
     </h1>
 
@@ -1527,17 +1625,111 @@
       });
     }
 
+    /* ---------- 4. Cycling word du hero (Option A) ---------- */
+    function setupCycler() {
+      if (reduced) return;
+      var el = document.querySelector('.cycler');
+      if (!el) return;
+      var sticker = el.parentElement; // .highlight
+      if (!sticker) return;
+
+      var raw = el.getAttribute('data-words') || '';
+      var words = raw.split(',').map(function(w) { return w.trim(); }).filter(Boolean);
+      if (words.length < 2) return;
+
+      // Mesurer la largeur de chaque mot dans le même contexte typographique
+      var probe = document.createElement('span');
+      var computed = getComputedStyle(el);
+      probe.style.font = computed.font;
+      probe.style.fontFamily = computed.fontFamily;
+      probe.style.fontSize = computed.fontSize;
+      probe.style.fontWeight = computed.fontWeight;
+      probe.style.fontStyle = computed.fontStyle;
+      probe.style.letterSpacing = computed.letterSpacing;
+      probe.style.position = 'absolute';
+      probe.style.visibility = 'hidden';
+      probe.style.whiteSpace = 'nowrap';
+      probe.style.left = '-9999px';
+      probe.style.top = '0';
+      document.body.appendChild(probe);
+
+      var paddingH =
+        parseFloat(getComputedStyle(sticker).paddingLeft || 0) +
+        parseFloat(getComputedStyle(sticker).paddingRight || 0);
+
+      var widths = words.map(function(w) {
+        probe.textContent = w;
+        return Math.ceil(probe.getBoundingClientRect().width + paddingH);
+      });
+      document.body.removeChild(probe);
+
+      var idx = Math.max(0, words.indexOf((el.textContent || '').trim()));
+      // Initialiser largeur sans transition (évite saut visuel au chargement)
+      var savedTransition = sticker.style.transition;
+      sticker.style.transition = 'none';
+      sticker.style.width = widths[idx] + 'px';
+      // Forcer reflow puis restaurer la transition
+      void sticker.offsetWidth;
+      sticker.style.transition = savedTransition || '';
+
+      function next() {
+        idx = (idx + 1) % words.length;
+
+        // Sortie : fade + translate up
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-10px)';
+
+        setTimeout(function() {
+          // Swap mot + déclenche la transition de largeur du sticker
+          el.textContent = words[idx];
+          sticker.style.width = widths[idx] + 'px';
+          // Prépare l'entrée
+          el.style.transform = 'translateY(10px)';
+          // Force reflow
+          void el.offsetWidth;
+          // Entrée : fade + translate down → zéro
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 260);
+      }
+
+      // Recalcule les largeurs si la fenêtre est redimensionnée (responsive hero)
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          document.body.appendChild(probe);
+          paddingH =
+            parseFloat(getComputedStyle(sticker).paddingLeft || 0) +
+            parseFloat(getComputedStyle(sticker).paddingRight || 0);
+          widths = words.map(function(w) {
+            probe.textContent = w;
+            return Math.ceil(probe.getBoundingClientRect().width + paddingH);
+          });
+          document.body.removeChild(probe);
+          sticker.style.width = widths[idx] + 'px';
+        }, 150);
+      }, { passive: true });
+
+      // Démarrer le cycle après un premier délai un peu plus long (laisse le hero respirer)
+      setTimeout(function() {
+        setInterval(next, 2600);
+      }, 2000);
+    }
+
     /* ---------- Boot ---------- */
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function() {
         setupReveal();
         setupScrollProgress();
         setupFAQ();
+        setupCycler();
       });
     } else {
       setupReveal();
       setupScrollProgress();
       setupFAQ();
+      setupCycler();
     }
   })();
 </script>
