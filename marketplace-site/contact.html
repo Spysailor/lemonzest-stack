@@ -265,6 +265,56 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 0 var(--lemon-deep);
   }
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+  }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 16px 24px 18px;
+    border-radius: 100px;
+    font-size: 14.5px; font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    box-shadow:
+      0 10px 40px -10px rgba(15, 14, 12, 0.4),
+      0 4px 0 var(--lemon-deep);
+    display: flex; align-items: center; gap: 12px;
+    z-index: 2000;
+    opacity: 0; visibility: hidden;
+    max-width: calc(100vw - 48px);
+    transition:
+      opacity 300ms ease,
+      transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      visibility 0s 420ms;
+    cursor: pointer;
+  }
+  .toast.show {
+    opacity: 1; visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    transition:
+      opacity 300ms ease,
+      transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      visibility 0s;
+  }
+  .toast.error {
+    background: #7A1F1F;
+    box-shadow:
+      0 10px 40px -10px rgba(122, 31, 31, 0.5),
+      0 4px 0 rgba(209, 72, 72, 0.9);
+  }
+  .toast-icon {
+    font-size: 20px; line-height: 1;
+    flex-shrink: 0;
+  }
+  .toast strong { color: var(--lemon); font-weight: 600; }
 
   .form-note {
     font-size: 12.5px; color: var(--slate);
@@ -464,16 +514,75 @@
     }
   }
 
-  // Concatène le prénom à la fin de _next avant soumission Formspree
-  // (_next se termine par "?p=", on ajoute le prénom encodé)
+  /* ---------- Toast helper ---------- */
+  function showToast(html, type) {
+    var toast = document.querySelector('.toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.addEventListener('click', function() { toast.classList.remove('show'); });
+      document.body.appendChild(toast);
+    }
+    toast.className = 'toast' + (type === 'error' ? ' error' : '');
+    var icon = type === 'error' ? '⚠️' : '🍋';
+    toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + html + '</span>';
+    // Trigger animation
+    requestAnimationFrame(function() { toast.classList.add('show'); });
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 6500);
+  }
+
+  /* ---------- Soumission AJAX vers Formspree ---------- */
   const form = document.getElementById('contact-form');
   if (form) {
-    form.addEventListener('submit', () => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('.submit-btn');
+      const originalHTML = submitBtn ? submitBtn.innerHTML : '';
       const prenomInput = document.getElementById('prenom');
-      const next = form.querySelector('input[name="_next"]');
-      if (next && prenomInput && prenomInput.value.trim()) {
-        next.value = next.value + encodeURIComponent(prenomInput.value.trim());
+      const prenom = prenomInput ? prenomInput.value.trim() : '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Envoi en cours…';
       }
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(response) {
+        if (response.ok) {
+          var msg = prenom
+            ? 'Merci <strong>' + prenom + '</strong>, votre demande est bien arrivée. Je reviens vers vous sous 48 h.'
+            : 'Merci, votre demande est bien arrivée. Je reviens vers vous sous 48 h.';
+          showToast(msg, 'success');
+          form.reset();
+          // Reset aussi le compteur de caractères
+          var cc = document.getElementById('char-count');
+          if (cc) cc.textContent = '0';
+        } else {
+          return response.json().then(function(data) {
+            var msg = (data.errors && data.errors.length)
+              ? data.errors.map(function(er) { return er.message; }).join(' · ')
+              : 'Une erreur est survenue. Réessayez ou écrivez à hello@lemonzestdigital.com';
+            showToast(msg, 'error');
+          });
+        }
+      })
+      .catch(function() {
+        showToast('Problème de connexion. Réessayez ou écrivez à hello@lemonzestdigital.com', 'error');
+      })
+      .then(function() {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHTML;
+        }
+      });
     });
   }
 </script>
