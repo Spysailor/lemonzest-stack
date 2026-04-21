@@ -1346,10 +1346,13 @@
         Pour goûter notre approche avant d'en parler ensemble.
       </p>
 
-      <!-- TODO: Formspree endpoint — remplacer action="" quand le compte est créé -->
-      <form class="lite-form" action="" method="POST">
+      <!-- Formspree endpoint configuré. -->
+      <form class="lite-form" action="https://formspree.io/f/mkokvewj" method="POST">
         <input type="hidden" name="source" value="skill-lite" />
-        <input type="hidden" name="_subject" value="Nouvelle demande Skill Lite gratuit" />
+        <input type="hidden" name="_subject" value="Nouveau téléchargement Skill Lite" />
+        <input type="hidden" name="_next" value="https://marketplace.lemonzestdigital.com/merci?p=&source=skill-lite" />
+        <!-- Honeypot anti-spam -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
         <input type="email" name="email" placeholder="vous@entreprise.com" required />
         <button type="submit">Recevoir le Skill Lite <span class="arrow">→</span></button>
       </form>
@@ -1428,7 +1431,7 @@
       <div class="faq-item">
         <div class="faq-q">Qu'est-ce qu'un diagnostic exactement ?<span class="faq-icon">+</span></div>
         <div class="faq-a">
-          Un échange structuré (souvent un appel de 30-45 minutes) où on comprend votre métier,
+          Un échange structuré (généralement un appel de 15 à 30 minutes) où on comprend votre métier,
           vos outils actuels, vos points de friction. À la fin, on vous dit honnêtement si l'IA
           peut vous aider — et si oui, comment. Si ce n'est pas pertinent pour vous, on vous le dit.
         </div>
@@ -1491,8 +1494,7 @@
     </p>
     <div class="final-cta-btns">
       <a href="/contact" class="btn-primary">Remplir le formulaire <span class="arrow">→</span></a>
-      <!-- TODO: remplacer href="#" par l'URL Cal.com de Jean-Michel une fois le compte créé -->
-      <a href="#" class="btn-secondary">Réserver un créneau direct</a>
+      <a href="https://cal.com/jean-michel-alexandre-am5yfb/15min" target="_blank" rel="noopener" class="btn-secondary">Réserver un créneau direct</a>
     </div>
   </div>
 </section>

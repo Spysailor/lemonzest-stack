@@ -321,19 +321,18 @@
         <div class="contact-alt">
           <div class="contact-alt-label">Ou plus rapide</div>
           <p>Réservez directement un créneau de 15 minutes dans mon agenda.</p>
-          <!-- TODO: remplacer href="#" par l'URL Cal.com de Jean-Michel une fois le compte créé -->
-          <a href="#" class="contact-alt-btn">📅 Réserver un créneau →</a>
+          <a href="https://cal.com/jean-michel-alexandre-am5yfb/15min" target="_blank" rel="noopener" class="contact-alt-btn">📅 Réserver un créneau →</a>
         </div>
       </div>
 
-      <!-- FORM -->
-      <!-- TODO: Formspree endpoint — remplacer action="" par https://formspree.io/f/XXXXXXXX
-           Ajouter aussi <input type="hidden" name="_next" value="https://marketplace.lemonzestdigital.com/merci.html?p=PRENOM" />
-           pour la redirection vers la page merci avec le prénom en paramètre URL -->
-      <form class="form-card" action="" method="POST" id="contact-form">
+      <!-- FORM — Formspree endpoint configuré. -->
+      <form class="form-card" action="https://formspree.io/f/mkokvewj" method="POST" id="contact-form">
 
         <input type="hidden" name="source" value="contact-form" />
-        <input type="hidden" name="_subject" value="Nouvelle demande de contact LZD" />
+        <input type="hidden" name="_subject" value="Nouveau lead qualifié — Lemon Zest Digital" />
+        <input type="hidden" name="_next" value="https://marketplace.lemonzestdigital.com/merci?p=" />
+        <!-- Honeypot anti-spam : bots remplissent, humains non (champ invisible) -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
         <div class="form-row">
           <div>
@@ -465,15 +464,15 @@
     }
   }
 
-  // Préparer redirect /merci?p=PRENOM (utilisé par Formspree _next)
-  // Cette logique sera activée quand Formspree sera configuré.
+  // Concatène le prénom à la fin de _next avant soumission Formspree
+  // (_next se termine par "?p=", on ajoute le prénom encodé)
   const form = document.getElementById('contact-form');
   if (form) {
     form.addEventListener('submit', () => {
-      const prenom = document.getElementById('prenom').value.trim();
+      const prenomInput = document.getElementById('prenom');
       const next = form.querySelector('input[name="_next"]');
-      if (next && prenom) {
-        next.value = next.value.replace('PRENOM', encodeURIComponent(prenom));
+      if (next && prenomInput && prenomInput.value.trim()) {
+        next.value = next.value + encodeURIComponent(prenomInput.value.trim());
       }
     });
   }
