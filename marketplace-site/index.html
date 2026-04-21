@@ -223,29 +223,49 @@
     50%      { transform: scale(1.06); opacity: 0.24; }
   }
 
-  /* ===== CITRON FANTÔME (Option E) ===== */
-  .ghost-lemon {
+  /* ===== BACKGROUND PATHS (kokonutd, porté en vanilla) =====
+     12 primary + 15 secondary + 10 accent paths, générés dynamiquement en JS.
+     Animés par groupes (3 keyframes) pour perf optimale.
+  */
+  .hero-paths {
     position: absolute;
-    right: -60px;
-    top: 50%;
-    width: 500px; height: 500px;
-    transform: translateY(-50%);
-    opacity: 0.08;
+    inset: 0;
     pointer-events: none;
+    overflow: hidden;
     z-index: 1;
-    filter: blur(2px);
-    animation: ghostFloat 14s ease-in-out infinite;
+  }
+  .hero-paths svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .wave-primary {
+    animation: waveY1 8s ease-in-out infinite alternate;
+    will-change: transform;
     transform-origin: center;
   }
-  @keyframes ghostFloat {
-    0%, 100% { transform: translateY(-50%) scale(1) rotate(-4deg); }
-    50%      { transform: translateY(-54%) scale(1.06) rotate(4deg); }
+  .wave-secondary {
+    animation: waveY2 6s ease-in-out infinite alternate;
+    will-change: transform;
+    transform-origin: center;
+    opacity: 0.8;
   }
-  @media (max-width: 1100px) {
-    .ghost-lemon { right: -140px; width: 420px; height: 420px; opacity: 0.07; }
+  .wave-accent {
+    animation: waveY3 4s ease-in-out infinite alternate;
+    will-change: transform;
+    transform-origin: center;
+    opacity: 0.6;
   }
-  @media (max-width: 720px) {
-    .ghost-lemon { right: -180px; top: 65%; width: 340px; height: 340px; opacity: 0.06; }
+  @keyframes waveY1 {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-15px); }
+  }
+  @keyframes waveY2 {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-10px); }
+  }
+  @keyframes waveY3 {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-5px); }
   }
 
   .hero-badge {
@@ -957,8 +977,8 @@
       transform: none !important;
     }
     .scroll-progress { display: none; }
-    /* Orbes et citron fantôme : figer à position initiale */
-    .orb, .ghost-lemon { animation: none !important; }
+    /* Orbes et background paths : figer à position initiale */
+    .orb, .wave-primary, .wave-secondary, .wave-accent { animation: none !important; }
     /* Cycler : rester sur le mot initial */
     .cycler { opacity: 1 !important; transform: none !important; }
   }
@@ -1004,13 +1024,8 @@
     <div class="orb orb-4"></div>
   </div>
 
-  <!-- Citron fantôme (Option E) — signature de marque géante -->
-  <svg class="ghost-lemon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <ellipse cx="12" cy="13.2" rx="6.5" ry="8.2" stroke="#0F0E0C" stroke-width="0.6" stroke-linejoin="round"/>
-    <ellipse cx="9.6" cy="11" rx="1.6" ry="1.1" fill="#0F0E0C" opacity="0.18"/>
-    <path d="M12 4 Q 14.5 2.2, 17 3.5" stroke="#10B981" stroke-width="0.6" stroke-linecap="round"/>
-    <path d="M17 3.5 L 16 5.6" stroke="#10B981" stroke-width="0.6" stroke-linecap="round"/>
-  </svg>
+  <!-- Background paths (kokonutd style) — 37 vagues SVG générées en JS -->
+  <div class="hero-paths" aria-hidden="true"></div>
 
   <div class="wrap">
     <div class="hero-badge">
@@ -1625,7 +1640,109 @@
       });
     }
 
-    /* ---------- 4. Cycling word du hero (Option A) ---------- */
+    /* ---------- 4. Background paths (port vanilla de kokonutd/background-paths) ----------
+       Algorithme identique à l'original React, adapté aux couleurs de marque LZD :
+       gradient lemon-deep → mint-deep → lemon-deep (au lieu de purple/pink/blue).
+    */
+    function setupBackgroundPaths() {
+      var container = document.querySelector('.hero-paths');
+      if (!container) return;
+      var SVG_NS = 'http://www.w3.org/2000/svg';
+
+      function generatePath(index, position, type) {
+        var baseAmplitude = type === 'primary' ? 150 : type === 'secondary' ? 100 : 60;
+        var segments      = type === 'primary' ? 10  : type === 'secondary' ? 8   : 6;
+        var phase = index * 0.2;
+        var startX = 2400, startY = 800;
+        var endX = -2400, endY = -800 + index * 25;
+        var points = [];
+        for (var i = 0; i <= segments; i++) {
+          var progress = i / segments;
+          var eased = 1 - Math.pow(1 - progress, 2);
+          var baseX = startX + (endX - startX) * eased;
+          var baseY = startY + (endY - startY) * eased;
+          var amplitudeFactor = 1 - eased * 0.3;
+          var w1 = Math.sin(progress * Math.PI * 3 + phase) * (baseAmplitude * 0.7 * amplitudeFactor);
+          var w2 = Math.cos(progress * Math.PI * 4 + phase) * (baseAmplitude * 0.3 * amplitudeFactor);
+          var w3 = Math.sin(progress * Math.PI * 2 + phase) * (baseAmplitude * 0.2 * amplitudeFactor);
+          points.push({ x: baseX * position, y: baseY + w1 + w2 + w3 });
+        }
+        var cmds = [];
+        for (var j = 0; j < points.length; j++) {
+          var p = points[j];
+          if (j === 0) { cmds.push('M ' + p.x.toFixed(1) + ' ' + p.y.toFixed(1)); continue; }
+          var prev = points[j - 1];
+          var tension = 0.4;
+          var cp1x = prev.x + (p.x - prev.x) * tension;
+          var cp1y = prev.y;
+          var cp2x = prev.x + (p.x - prev.x) * (1 - tension);
+          var cp2y = p.y;
+          cmds.push('C ' + cp1x.toFixed(1) + ' ' + cp1y.toFixed(1) + ', '
+                         + cp2x.toFixed(1) + ' ' + cp2y.toFixed(1) + ', '
+                         + p.x.toFixed(1)  + ' ' + p.y.toFixed(1));
+        }
+        return cmds.join(' ');
+      }
+
+      function makeSvgEl(tag, attrs) {
+        var el = document.createElementNS(SVG_NS, tag);
+        for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) el.setAttribute(k, attrs[k]); }
+        return el;
+      }
+
+      var svg = makeSvgEl('svg', {
+        viewBox: '-2400 -800 4800 1600',
+        preserveAspectRatio: 'xMidYMid slice',
+        fill: 'none',
+        'aria-hidden': 'true'
+      });
+
+      // Gradient tri-stop : lemon → mint → lemon (boucle visuelle)
+      var defs = makeSvgEl('defs', {});
+      var grad = makeSvgEl('linearGradient', {
+        id: 'pathsGradient',
+        x1: '0%', x2: '100%', y1: '0%', y2: '0%'
+      });
+      [
+        ['0%',   'rgba(245, 196, 0, 0.55)'],   // lemon-deep
+        ['50%',  'rgba(16, 185, 129, 0.42)'],  // mint-deep
+        ['100%', 'rgba(245, 196, 0, 0.55)']    // lemon-deep (boucle)
+      ].forEach(function(s) {
+        grad.appendChild(makeSvgEl('stop', { offset: s[0], 'stop-color': s[1] }));
+      });
+      defs.appendChild(grad);
+      svg.appendChild(defs);
+
+      var groups = [
+        { type: 'primary',   count: 12, cls: 'wave-primary'   },
+        { type: 'secondary', count: 15, cls: 'wave-secondary' },
+        { type: 'accent',    count: 10, cls: 'wave-accent'    }
+      ];
+
+      groups.forEach(function(g) {
+        var grp = makeSvgEl('g', { 'class': g.cls });
+        for (var i = 0; i < g.count; i++) {
+          var opacity, width;
+          if (g.type === 'primary')        { opacity = 0.15 + i * 0.02;  width = 4 + i * 0.3;  }
+          else if (g.type === 'secondary') { opacity = 0.12 + i * 0.015; width = 3 + i * 0.25; }
+          else                             { opacity = 0.08 + i * 0.10;  width = 2 + i * 0.2;  }
+
+          var path = makeSvgEl('path', {
+            d: generatePath(i, 1, g.type),
+            stroke: 'url(#pathsGradient)',
+            'stroke-linecap': 'round',
+            'stroke-width': width.toFixed(1)
+          });
+          path.style.opacity = opacity.toFixed(3);
+          grp.appendChild(path);
+        }
+        svg.appendChild(grp);
+      });
+
+      container.appendChild(svg);
+    }
+
+    /* ---------- 5. Cycling word du hero (Option A) ---------- */
     function setupCycler() {
       if (reduced) return;
       var el = document.querySelector('.cycler');
@@ -1718,18 +1835,17 @@
     }
 
     /* ---------- Boot ---------- */
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setupReveal();
-        setupScrollProgress();
-        setupFAQ();
-        setupCycler();
-      });
-    } else {
+    function boot() {
+      setupBackgroundPaths();
       setupReveal();
       setupScrollProgress();
       setupFAQ();
       setupCycler();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    } else {
+      boot();
     }
   })();
 </script>
