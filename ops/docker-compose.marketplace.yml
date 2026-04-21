@@ -61,9 +61,11 @@ services:
       - traefik.http.middlewares.marketplace-secheaders.headers.contentTypeNosniff=true
       # Referrer-Policy
       - traefik.http.middlewares.marketplace-secheaders.headers.referrerPolicy=strict-origin-when-cross-origin
-      # Content-Security-Policy basique (ajustée aux Google Fonts + styles inline du template actuel)
-      # Note: 'unsafe-inline' pour script-src requis par Astro (scripts inline bundlés pour composants interactifs — DemoSimulator, FAQ, CookieBanner). Risque faible sur site statique marketing sans input utilisateur.
-      - "traefik.http.middlewares.marketplace-secheaders.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://gumroad.com https://*.gumroad.com"
+      # Content-Security-Policy — V4 : Formspree (form-action) à la place de Gumroad (retiré)
+      # Note: 'unsafe-inline' requis pour script-src (JS inline dans index.html pour IntersectionObserver,
+      # scroll progress, FAQ, cycler, background paths, etc.). Risque faible : zéro input utilisateur XSS-able,
+      # tous les inputs sont captés par Formspree qui sanitize côté serveur.
+      - "traefik.http.middlewares.marketplace-secheaders.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://formspree.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io"
       # Permissions-Policy — désactive les APIs sensibles non utilisées (score A+ securityheaders.com)
       - "traefik.http.middlewares.marketplace-secheaders.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
 
