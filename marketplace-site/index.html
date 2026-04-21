@@ -247,13 +247,11 @@
     animation: waveY2 6s ease-in-out infinite alternate;
     will-change: transform;
     transform-origin: center;
-    opacity: 0.8;
   }
   .wave-accent {
     animation: waveY3 4s ease-in-out infinite alternate;
     will-change: transform;
     transform-origin: center;
-    opacity: 0.6;
   }
   @keyframes waveY1 {
     from { transform: translateY(0); }
@@ -1704,9 +1702,9 @@
         x1: '0%', x2: '100%', y1: '0%', y2: '0%'
       });
       [
-        ['0%',   'rgba(245, 196, 0, 0.55)'],   // lemon-deep
-        ['50%',  'rgba(16, 185, 129, 0.42)'],  // mint-deep
-        ['100%', 'rgba(245, 196, 0, 0.55)']    // lemon-deep (boucle)
+        ['0%',   'rgba(245, 196, 0, 0.75)'],   // lemon-deep (boosté)
+        ['50%',  'rgba(16, 185, 129, 0.6)'],   // mint-deep (boosté)
+        ['100%', 'rgba(245, 196, 0, 0.75)']    // lemon-deep (boucle)
       ].forEach(function(s) {
         grad.appendChild(makeSvgEl('stop', { offset: s[0], 'stop-color': s[1] }));
       });
