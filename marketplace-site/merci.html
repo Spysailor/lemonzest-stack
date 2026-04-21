@@ -187,7 +187,7 @@
   .merci-meta a:hover { text-decoration: underline; }
 
   footer {
-    padding: 24px 0;
+    padding: 24px 20px 20px;
     background: var(--cream);
     border-top: 1px solid var(--line);
     text-align: center;
@@ -195,6 +195,13 @@
   }
   footer a { color: var(--slate); text-decoration: none; }
   footer a:hover { color: var(--ink); }
+  .footer-row { margin-bottom: 10px; }
+  .footer-legal {
+    display: inline-flex; gap: 12px; align-items: center;
+    font-size: 12.5px;
+    opacity: 0.85;
+  }
+  .footer-legal span { opacity: 0.4; }
 </style>
 </head>
 <body>
@@ -238,7 +245,14 @@
 </section>
 
 <footer>
-  © 2026 Lemon Zest Digital · Fait à Maurice 🇲🇺
+  <div class="footer-row">© 2026 Lemon Zest Digital · Fait à Maurice 🇲🇺</div>
+  <div class="footer-legal">
+    <a href="/mentions-legales">Mentions légales</a>
+    <span>·</span>
+    <a href="/cgv">CGV</a>
+    <span>·</span>
+    <a href="/confidentialite">Confidentialité</a>
+  </div>
 </footer>
 
 <script>
