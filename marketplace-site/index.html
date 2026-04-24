@@ -408,6 +408,7 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     position: relative;
+    overflow: hidden;
   }
   .clients-label {
     font-family: 'Geist Mono', monospace;
@@ -418,25 +419,66 @@
     text-align: center;
     margin-bottom: 32px;
   }
-  .clients-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 32px;
-    align-items: center;
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-  @media (max-width: 820px) { .clients-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
-  @media (max-width: 480px) { .clients-grid { grid-template-columns: repeat(2, 1fr); } }
 
-  .client-logo {
-    display: flex; align-items: center; justify-content: center;
-    height: 48px;
-    color: rgba(15, 14, 12, 0.4);
-    transition: color 0.3s var(--ease-soft), transform 0.3s var(--ease-soft);
+  /* ===== MARQUEE LOGOS ===== */
+  .clients-marquee {
+    position: relative;
+    overflow: hidden;
+    /* Fade gauche/droite pour masquer les bords (mask-image) */
+    mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 80px,
+      #000 calc(100% - 80px),
+      transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 80px,
+      #000 calc(100% - 80px),
+      transparent 100%);
   }
-  .client-logo:hover { color: var(--ink); transform: translateY(-2px); }
-  .client-logo svg { width: 100%; height: 100%; max-width: 140px; }
+  .clients-track {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+    width: max-content;
+    animation: scrollLogos 60s linear infinite;
+    will-change: transform;
+  }
+  .clients-marquee:hover .clients-track {
+    animation-play-state: paused;
+  }
+  .client-logo {
+    flex: 0 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(100%) opacity(0.55);
+    transition: filter 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  }
+  .client-logo:hover {
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.08);
+  }
+  .client-logo img {
+    max-height: 56px;
+    max-width: 120px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  @keyframes scrollLogos {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 600px) {
+    .client-logo { height: 44px; }
+    .client-logo img { max-height: 44px; max-width: 96px; }
+    .clients-track { gap: 40px; animation-duration: 50s; }
+  }
 
   /* ===== METHOD ===== */
   .method {
@@ -1019,8 +1061,8 @@
       transform: none !important;
     }
     .scroll-progress { display: none; }
-    /* Orbes et background paths : figer à position initiale */
-    .orb, .wave-primary, .wave-secondary, .wave-accent { animation: none !important; }
+    /* Orbes, background paths, marquee logos : figer à position initiale */
+    .orb, .wave-primary, .wave-secondary, .wave-accent, .clients-track { animation: none !important; }
     /* Cycler : rester sur le mot initial */
     .cycler { opacity: 1 !important; transform: none !important; }
   }
@@ -1099,49 +1141,73 @@
 </section>
 
 <!-- ===== ILS NOUS FONT CONFIANCE =====
-     TODO: remplacer chaque <svg> par le vrai logo client (SVG monochrome).
-     6 emplacements ci-dessous.
+     26 logos clients en marquee scrolling infini. Pause au hover.
+     Chaque logo est dupliqué 2 fois (original + aria-hidden) pour un
+     seamless loop (translateX -50%). Sans cette duplication, on verrait
+     un "saut" à la fin du cycle.
+     Filter grayscale au repos + couleur au hover pour un rendu premium.
 -->
-<section class="clients reveal" aria-label="Ils nous font confiance">
-  <div class="wrap">
-    <div class="clients-label">Ils nous font confiance</div>
-    <div class="clients-grid reveal-stagger">
-      <div class="client-logo" title="Logo client 1">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="10" width="22" height="22" rx="4" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
-      <div class="client-logo" title="Logo client 2">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="14" cy="20" r="10" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
-      <div class="client-logo" title="Logo client 3">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <polygon points="14,8 26,30 2,30" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
-      <div class="client-logo" title="Logo client 4">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="4" y="14" width="20" height="14" rx="7" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
-      <div class="client-logo" title="Logo client 5">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M4 10 L24 10 L14 30 Z" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
-      <div class="client-logo" title="Logo client 6">
-        <svg viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="14" width="24" height="12" fill="currentColor" opacity="0.7"/>
-          <text x="32" y="26" font-family="Geist, sans-serif" font-weight="700" font-size="15" fill="currentColor">Logo client</text>
-        </svg>
-      </div>
+<section class="clients" aria-label="Ils nous font confiance">
+  <div class="clients-label">Ils nous font confiance</div>
+  <div class="clients-marquee">
+    <div class="clients-track">
+
+      <!-- Set 1 (visible) -->
+      <div class="client-logo"><img src="/assets/clients/1.png" alt="Client 1" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/2.png" alt="Client 2" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/3.png" alt="Client 3" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/4.png" alt="Client 4" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/5.png" alt="Client 5" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/6.png" alt="Client 6" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/7.png" alt="Client 7" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/8.png" alt="Client 8" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/9.png" alt="Client 9" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/10.png" alt="Client 10" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/11.png" alt="Client 11" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/12.png" alt="Client 12" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/13.png" alt="Client 13" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/14.png" alt="Client 14" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/15.png" alt="Client 15" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/16.png" alt="Client 16" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/17.png" alt="Client 17" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/18.png" alt="Client 18" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/19.png" alt="Client 19" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/20.png" alt="Client 20" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/21.png" alt="Client 21" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/22.png" alt="Client 22" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/23.png" alt="Client 23" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/24.png" alt="Client 24" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/25.png" alt="Client 25" loading="lazy" /></div>
+      <div class="client-logo"><img src="/assets/clients/26.png" alt="Client 26" loading="lazy" /></div>
+
+      <!-- Set 2 (dupliqué pour seamless loop — aria-hidden car duplicata visuel) -->
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/1.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/2.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/3.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/4.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/5.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/6.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/7.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/8.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/9.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/10.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/11.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/12.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/13.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/14.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/15.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/16.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/17.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/18.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/19.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/20.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/21.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/22.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/23.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/24.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/25.png" alt="" loading="lazy" /></div>
+      <div class="client-logo" aria-hidden="true"><img src="/assets/clients/26.png" alt="" loading="lazy" /></div>
+
     </div>
   </div>
 </section>
