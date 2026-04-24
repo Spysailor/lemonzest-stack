@@ -19,8 +19,6 @@
     --mint: #6EE7B7;
     --mint-deep: #10B981;
     --teal: #2EC4B6;         /* Charte LZD : cercle extérieur du logo citron */
-    --fuchsia: #EC4899;      /* Accent tendance, remplace mint dans le hero (paths + orbe) */
-    --fuchsia-deep: #BE185D; /* Variante sombre pour gradients/shadows */
     --charcoal: #0F0E0C;
     --ink: #1A1915;
     --slate: #5C5A52;
@@ -181,8 +179,8 @@
   .orb-2 {
     width: 520px; height: 520px;
     bottom: -22%; left: -14%;
-    background: radial-gradient(circle, var(--fuchsia) 0%, transparent 65%);
-    opacity: 0.28;
+    background: radial-gradient(circle, var(--mint) 0%, transparent 65%);
+    opacity: 0.32;
     animation: drift2 22s ease-in-out infinite -7s;
   }
   .orb-3 {
@@ -1820,7 +1818,7 @@
       });
       [
         ['0%',   'rgba(245, 196, 0, 0.75)'],   // lemon-deep
-        ['50%',  'rgba(236, 72, 153, 0.7)'],   // fuchsia (remplace mint — charte LZD V2)
+        ['50%',  'rgba(16, 185, 129, 0.6)'],   // mint-deep (accent doux LZD)
         ['100%', 'rgba(245, 196, 0, 0.75)']    // lemon-deep (boucle)
       ].forEach(function(s) {
         grad.appendChild(makeSvgEl('stop', { offset: s[0], 'stop-color': s[1] }));

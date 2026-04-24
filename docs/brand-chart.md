@@ -24,9 +24,8 @@ Toute modification de la palette côté site doit rester cohérente avec ce fich
 
 | Rôle | Nom CSS | Hex | Usage |
 |---|---|---|---|
-| **Mint** | `--mint` | `#6EE7B7` | Accent doux pastel (badge pulse, proof dot) |
-| **Mint deep** | `--mint-deep` | `#10B981` | Accent vert saturé (liens success, eyebrows) |
-| **Fuchsia** | `--fuchsia` | `#EC4899` | Accent tendance, contraste fort (background paths V2) |
+| **Mint** | `--mint` | `#6EE7B7` | Accents doux (badge pulse, proof dot, blob hero, paths gradient) |
+| **Mint deep** | `--mint-deep` | `#10B981` | Accent vert saturé (liens success, eyebrows, paths middle stop) |
 
 ### Utilitaires
 
