@@ -111,9 +111,11 @@ fi
 step "5. Reverse proxy (Traefik)"
 
 if ss -tlnp 2>/dev/null | grep -qE ':(80|443)\s'; then
-  listener=$(ss -tlnp 2>/dev/null | grep -E ':(80|443)\s' | head -1 | grep -oE 'users:\("[^"]+"' | head -1 | cut -d'"' -f2)
-  info "Quelque chose écoute déjà sur 80/443 (${listener:-?}) → on l'utilise tel quel."
-  info "Si c'est Traefik avec certresolver=letsencrypt (Hostinger ou nôtre), marketplace-site va s'enregistrer via ses labels."
+  # Extraction best-effort du nom du process (peut échouer selon format ss → non bloquant)
+  listener=$(ss -tlnp 2>/dev/null | grep -E ':(80|443)\s' | head -1 \
+             | sed -nE 's/.*users:\(+"([^"]+)".*/\1/p' | head -1 || true)
+  info "Un service écoute déjà sur 80 ou 443${listener:+ (${listener})} → on le laisse en place (piggyback)."
+  info "Si c'est Traefik avec certresolver=letsencrypt (Hostinger ou le nôtre), marketplace-site va s'enregistrer via ses labels."
 else
   info "Aucun reverse proxy détecté → démarrage du Traefik de secours"
   LETSENCRYPT_EMAIL="${LETSENCRYPT_EMAIL}" \
