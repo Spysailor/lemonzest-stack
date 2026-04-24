@@ -18,6 +18,9 @@
     --cream: #FFF8E7;
     --mint: #6EE7B7;
     --mint-deep: #10B981;
+    --teal: #2EC4B6;         /* Charte LZD : cercle extérieur du logo citron */
+    --fuchsia: #EC4899;      /* Accent tendance, remplace mint dans le hero (paths + orbe) */
+    --fuchsia-deep: #BE185D; /* Variante sombre pour gradients/shadows */
     --charcoal: #0F0E0C;
     --ink: #1A1915;
     --slate: #5C5A52;
@@ -178,8 +181,8 @@
   .orb-2 {
     width: 520px; height: 520px;
     bottom: -22%; left: -14%;
-    background: radial-gradient(circle, var(--mint) 0%, transparent 65%);
-    opacity: 0.32;
+    background: radial-gradient(circle, var(--fuchsia) 0%, transparent 65%);
+    opacity: 0.28;
     animation: drift2 22s ease-in-out infinite -7s;
   }
   .orb-3 {
@@ -404,7 +407,9 @@
   /* ===== CLIENTS STRIP ===== */
   .clients {
     background: var(--cream);
-    padding: 56px 0 64px;
+    /* Padding réduit (56/64 → 28/32) pour compenser le doublage de la hauteur des logos
+       (56px → 112px) — la section garde approximativement la même hauteur totale qu'avant. */
+    padding: 28px 0 32px;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     position: relative;
@@ -417,7 +422,7 @@
     color: var(--ink);
     opacity: 0.5;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
   }
 
   /* ===== MARQUEE LOGOS ===== */
@@ -449,7 +454,7 @@
   }
   .client-logo {
     flex: 0 0 auto;
-    height: 56px;
+    height: 112px;  /* Doublé : 56 → 112 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -461,8 +466,8 @@
     transform: scale(1.08);
   }
   .client-logo img {
-    max-height: 56px;
-    max-width: 120px;
+    max-height: 112px;  /* Doublé : 56 → 112 */
+    max-width: 200px;   /* Élargi proportionnellement : 120 → 200 */
     width: auto;
     height: auto;
     object-fit: contain;
@@ -475,8 +480,8 @@
   }
 
   @media (max-width: 600px) {
-    .client-logo { height: 44px; }
-    .client-logo img { max-height: 44px; max-width: 96px; }
+    .client-logo { height: 88px; }
+    .client-logo img { max-height: 88px; max-width: 160px; }
     .clients-track { gap: 40px; animation-duration: 50s; }
   }
 
@@ -1814,8 +1819,8 @@
         x1: '0%', x2: '100%', y1: '0%', y2: '0%'
       });
       [
-        ['0%',   'rgba(245, 196, 0, 0.75)'],   // lemon-deep (boosté)
-        ['50%',  'rgba(16, 185, 129, 0.6)'],   // mint-deep (boosté)
+        ['0%',   'rgba(245, 196, 0, 0.75)'],   // lemon-deep
+        ['50%',  'rgba(236, 72, 153, 0.7)'],   // fuchsia (remplace mint — charte LZD V2)
         ['100%', 'rgba(245, 196, 0, 0.75)']    // lemon-deep (boucle)
       ].forEach(function(s) {
         grad.appendChild(makeSvgEl('stop', { offset: s[0], 'stop-color': s[1] }));
