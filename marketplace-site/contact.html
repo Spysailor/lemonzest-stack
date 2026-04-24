@@ -6,6 +6,9 @@
 <title>Contact — Lemon Zest Digital</title>
 <meta name="description" content="Parlons de votre projet IA sur-mesure. 15 minutes pour comprendre votre besoin, sans engagement." />
 
+<link rel="icon" type="image/png" href="/assets/brand/favicon-32.png" />
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -55,11 +58,9 @@
     color: var(--ink); text-decoration: none;
     display: flex; align-items: center; gap: 10px;
   }
-  .logo-dot {
-    width: 32px; height: 32px; background: var(--lemon);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-style: normal; font-size: 18px;
-    box-shadow: 0 4px 14px rgba(245, 196, 0, 0.35);
+  .logo-img {
+    width: 36px; height: 36px; display: block;
+    filter: drop-shadow(0 4px 10px rgba(245, 196, 0, 0.25));
   }
   .nav-back {
     color: var(--ink); text-decoration: none;
@@ -347,7 +348,7 @@
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo">
-      <span class="logo-dot">🍋</span>
+      <img class="logo-img" src="/assets/brand/logo-lemon.png" alt="Lemon Zest Digital" />
       <em>Lemon Zest</em>
     </a>
     <a href="/" class="nav-back">← Retour à l'accueil</a>
