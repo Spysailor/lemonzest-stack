@@ -41,3 +41,35 @@ Configuration infrastructure, scripts de déploiement, CI/CD, et outils d'exploi
 ## Démarrage
 
 Chaque sous-dossier est autonome. Voir le `README.md` propre à chaque dossier pour les instructions spécifiques.
+
+## 🆘 Reprise à froid d'un VPS
+
+Si le VPS est reset, migré, ou remplacé (nouveau provider, nouveau serveur, Hostinger qui reprovisionne), **une seule commande** remet le site en ligne avec certificat Let's Encrypt :
+
+```bash
+ssh root@<NOUVELLE_IP>
+bash <(curl -fsSL https://raw.githubusercontent.com/Spysailor/lemonzest-stack/main/ops/bootstrap-vps.sh)
+```
+
+Le script `ops/bootstrap-vps.sh` est **idempotent** et couvre :
+
+- VPS Ubuntu vierge → installe Docker + clone le repo + Traefik + marketplace-site
+- VPS avec Docker déjà présent → skip l'install, continue
+- VPS avec un reverse proxy existant (ex : Traefik Hostinger) → piggyback sans conflit
+- Reprise après incident → re-clone + `docker compose up -d` en 2 minutes
+
+Variables personnalisables (optionnelles) :
+
+```bash
+REPO_URL=https://github.com/.../custom-fork.git \
+DOMAIN=autre.exemple.com \
+LETSENCRYPT_EMAIL=admin@exemple.com \
+bash <(curl -fsSL .../bootstrap-vps.sh)
+```
+
+## ⚠️ Ajouter une app sur le VPS (ne PAS utiliser le panel Hostinger)
+
+**N'utilise jamais le "Gestionnaire Docker" de Hostinger pour installer une nouvelle app** — il reprovisionne le VPS entier et efface les stacks existantes.
+
+Méthode propre : SSH + `docker compose` avec un fichier versionné dans `ops/`, en réutilisant le Traefik déjà en place (labels standards `traefik.http.routers.<name>...`). Voir `ops/docker-compose.marketplace.yml` comme exemple.
+

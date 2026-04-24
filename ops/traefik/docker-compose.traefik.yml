@@ -1,0 +1,59 @@
+# Traefik de secours — utilisé par ops/bootstrap-vps.sh uniquement si aucun
+# reverse proxy n'écoute déjà sur les ports 80/443 du VPS.
+#
+# Config alignée sur celle que Hostinger installe via son Gestionnaire Docker,
+# pour que nos labels Traefik (cf. docker-compose.marketplace.yml) fonctionnent
+# indifféremment avec les deux.
+#
+# Pré-requis :
+#   - Docker + Docker Compose plugin installés
+#   - Ports 80 et 443 libres
+#   - DNS des sous-domaines → pointés sur l'IP du VPS
+#
+# Lancement manuel (normalement appelé par bootstrap-vps.sh) :
+#   cd /opt/lemonzest-marketplace/repo/ops/traefik
+#   LETSENCRYPT_EMAIL=hello@lemonzestdigital.com docker compose up -d
+
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    restart: unless-stopped
+    network_mode: host  # même choix que la stack Hostinger : un seul network namespace
+    command:
+      - "--api.dashboard=false"
+      - "--api.insecure=false"
+      - "--log.level=INFO"
+      - "--accesslog=false"
+      # Docker provider — lit les labels des autres containers (exposedbydefault=false
+      # pour obliger chaque container à s'activer explicitement via traefik.enable=true)
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      # Entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # Redirect global HTTP → HTTPS (Traefik s'occupe du 301)
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      # Certificats Let's Encrypt via HTTP-01 challenge (sur le port 80)
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL:-hello@lemonzestdigital.com}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-letsencrypt:/letsencrypt
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "--spider", "http://127.0.0.1:80/ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      disable: true  # Traefik >=3 sans --ping → on désactive, Docker healthcheck natif suffit
+
+volumes:
+  # Volume nommé — acme.json persiste entre restarts container et recréation.
+  # /!\ Ne PAS supprimer ce volume sans backup — contient les certs + clé privée ACME.
+  traefik-letsencrypt:
+    name: traefik-letsencrypt
