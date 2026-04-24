@@ -6,6 +6,10 @@
 <title>Lemon Zest Digital — Solutions IA sur-mesure pour francophones</title>
 <meta name="description" content="L'IA qui s'adapte à votre métier. Diagnostic, conception sur-mesure, installation et accompagnement. Depuis Maurice, pour les francophones du monde." />
 
+<link rel="icon" type="image/png" href="/assets/brand/favicon-32.png" />
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+<meta property="og:image" content="/assets/brand/logo-lemon-512.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -114,16 +118,13 @@
     color: var(--ink); text-decoration: none;
     display: flex; align-items: center; gap: 10px;
   }
-  .logo-dot {
-    width: 32px; height: 32px; background: var(--lemon);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 14px rgba(245, 196, 0, 0.35);
-  }
-  .logo-icon {
-    width: 22px; height: 22px;
+  /* Logo officiel PNG (assets/brand/logo-lemon.png) — citron jaune + cercle teal */
+  .logo-img {
+    width: 36px; height: 36px;
+    display: block;
     transform-origin: center;
     animation: logoPulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 10px rgba(245, 196, 0, 0.25));
   }
   @keyframes logoPulse {
     0%, 100% { transform: scale(1) rotate(-3deg); }
@@ -179,8 +180,8 @@
   .orb-2 {
     width: 520px; height: 520px;
     bottom: -22%; left: -14%;
-    background: radial-gradient(circle, var(--mint) 0%, transparent 65%);
-    opacity: 0.32;
+    background: radial-gradient(circle, var(--teal) 0%, transparent 65%);
+    opacity: 0.35;
     animation: drift2 22s ease-in-out infinite -7s;
   }
   .orb-3 {
@@ -1080,21 +1081,14 @@
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo" aria-label="Lemon Zest Digital — Accueil">
-      <span class="logo-dot">
-        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <ellipse cx="12" cy="13.2" rx="6.5" ry="8.2" stroke="#0F0E0C" stroke-width="1.6" stroke-linejoin="round"/>
-          <ellipse cx="9.6" cy="11" rx="1.6" ry="1.1" fill="#0F0E0C" opacity="0.18"/>
-          <path d="M12 4 Q 14.5 2.2, 17 3.5" stroke="#10B981" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M17 3.5 L 16 5.6" stroke="#10B981" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </span>
+<img class="logo-img" src="/assets/brand/logo-lemon.png" alt="Lemon Zest Digital" />
       <em>Lemon Zest</em>
     </a>
     <div class="nav-links">
       <a href="#sectors">Métiers</a>
-      <a href="#method">Comment on travaille</a>
-      <a href="#lite">Skill Lite gratuit</a>
-      <a href="/contact">Contact</a>
+      <a href="#method">Méthode</a>
+      <a href="/a-propos">À propos</a>
+      <a href="#lite">Skill Lite</a>
       <a href="/contact" class="nav-cta">Discutons</a>
     </div>
   </div>
@@ -1818,7 +1812,7 @@
       });
       [
         ['0%',   'rgba(245, 196, 0, 0.75)'],   // lemon-deep
-        ['50%',  'rgba(16, 185, 129, 0.6)'],   // mint-deep (accent doux LZD)
+        ['50%',  'rgba(46, 196, 182, 0.7)'],   // teal LZD (cercle officiel du logo)
         ['100%', 'rgba(245, 196, 0, 0.75)']    // lemon-deep (boucle)
       ].forEach(function(s) {
         grad.appendChild(makeSvgEl('stop', { offset: s[0], 'stop-color': s[1] }));
